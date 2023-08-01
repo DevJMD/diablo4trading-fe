@@ -9,18 +9,17 @@ import { Box, Button, Card, Collapse, Grid } from '@mui/material';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useServerType } from '../providers';
-import { SearchFilterAffixes } from './search-filter-affixes.component';
 import { SearchFilterItem } from './search-filter-item.component';
 import { SearchFilterSeasonal } from './search-filter-seasonal.component';
 
 interface SearchFilterProps {
-    request: API.SearchRequest;
-    onSearch: (request: API.SearchRequest) => void;
+    payload: API.SearchPayload;
+    onSearch: (payload: API.SearchPayload) => void;
     searching?: boolean;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = ({
-    request: initialRequest,
+    payload: initialPayload,
     onSearch,
     searching,
 }) => {
@@ -29,21 +28,21 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
     const serverType = useServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
-    const [request, setRequest] = React.useState<API.SearchRequest>(initialRequest);
+    const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch(request);
+        onSearch(payload);
         setVisible(false);
     };
 
     const handleClear = () => {
-        setRequest({});
+        setPayload({});
     };
 
     const {
         query = {},
-    } = request;
+    } = payload;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -56,7 +55,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                     <Grid item xs={12}>
                                         <SearchFilterItem
                                             value={query.item}
-                                            onChange={item => setRequest({ ...request, query: { ...query, item } })}
+                                            onChange={item => setPayload({ ...payload, query: { ...query, item } })}
                                         />
                                     </Grid>
                                     {(
@@ -66,7 +65,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                             <Grid item xs={12}>
                                                 <SearchFilterSeasonal
                                                     value={query.seasonal}
-                                                    onChange={seasonal => setRequest({ ...request, query: { ...query, seasonal } })}
+                                                    onChange={seasonal => setPayload({ ...payload, query: { ...query, seasonal } })}
                                                 />
                                             </Grid>
                                         )
@@ -74,10 +73,10 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <SearchFilterAffixes
+                                {/* <SearchFilterAffixes
                                     value={query.affixes}
-                                    onChange={affixes => setRequest({ ...request, query: { ...query, affixes } })}
-                                />
+                                    onChange={affixes => setPayload({ ...payload, query: { ...query, affixes } })}
+                                /> */}
                             </Grid>
                         </Grid>
                     </Box>

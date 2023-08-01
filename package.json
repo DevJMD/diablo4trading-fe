@@ -24,7 +24,7 @@
     "@lingui/react": "^4.3.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
-    "@sanctuaryteam/shared": "^0.1.0",
+    "@sanctuaryteam/shared": "^0.1.1",
     "lz-string": "^1.5.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
