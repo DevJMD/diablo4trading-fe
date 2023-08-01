@@ -2,7 +2,7 @@ import { Game } from '@diablosnaps/common';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import { Common } from '../common';
 import { MasterLayout } from './layout';
-import { ListingsPage, SearchPage, ServerTypePage } from './pages';
+import { ListingsPage, SearchPage } from './pages';
 import { AssetsProvider, ServerTypeProvider } from './providers';
 
 const SERVER_TYPE_PATHS: Record<Game.ServerType, string> = {
@@ -18,7 +18,7 @@ export const Element: React.FC = (
     const navigate = useNavigate();
 
     const handleServerTypeChange = (serverType: Game.ServerType) => {
-        navigate(`./${SERVER_TYPE_PATHS[serverType]}`);
+        navigate(`./${SERVER_TYPE_PATHS[serverType]}/search`);
     };
 
     return (
@@ -33,9 +33,7 @@ export const Element: React.FC = (
                 }
                 return (
                     <Routes>
-                        <Route index element={<ServerTypePage
-                            onChange={handleServerTypeChange}
-                        />} />
+                        <Route path='*' index element={<Navigate to={`./${SERVER_TYPE_PATHS[Game.ServerType.Seasonal]}/search`} replace />} />
                         {Object
                             .values(Game.ServerType)
                             .map((serverType) => (
@@ -43,7 +41,10 @@ export const Element: React.FC = (
                                     key={serverType}
                                     path={`${SERVER_TYPE_PATHS[serverType]}/*`}
                                     element={(
-                                        <ServerTypeProvider value={serverType}>
+                                        <ServerTypeProvider
+                                            value={serverType}
+                                            onChange={handleServerTypeChange}
+                                        >
                                             <MasterLayout>
                                                 <Outlet />
                                             </MasterLayout>
@@ -56,7 +57,6 @@ export const Element: React.FC = (
                                 </Route>
                             ))
                         }
-                        <Route path='*' element={<Navigate to='/' replace />} />
                     </Routes>
                 )
             }}

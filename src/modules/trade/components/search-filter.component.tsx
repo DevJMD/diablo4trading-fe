@@ -26,7 +26,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 }) => {
     const { i18n } = useLingui();
 
-    const serverType = useServerType();
+    const [serverType] = useServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
     const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
