@@ -1,7 +1,7 @@
 import { Game } from '@diablosnaps/common';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, IconButton, Stack, Tab, Tabs, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -60,7 +60,6 @@ export const MasterLayout: React.FC<MasterLayoutProps> = ({
         <>
             <Box
                 pt={4}
-                pb={2}
                 display='flex'
                 flexDirection='column'
                 alignItems='center'
