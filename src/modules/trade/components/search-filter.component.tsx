@@ -13,6 +13,11 @@ import { SearchFilterAffix } from './search-filter-affix.component';
 import { SearchFilterItem } from './search-filter-item.component';
 import { SearchFilterSeasonal } from './search-filter-seasonal.component';
 
+const SEASONAL_SERVERS = [
+    Game.ServerType.Seasonal,
+    Game.ServerType.SeasonalHardcore,
+];
+
 interface SearchFilterProps {
     payload: API.SearchPayload;
     onSearch: (payload: API.SearchPayload) => void;
@@ -30,6 +35,14 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 
     const [visible, setVisible] = React.useState<boolean>(true);
     const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
+
+    React.useEffect(() => {
+        if (!SEASONAL_SERVERS.includes(serverType)) {
+            if (payload.query?.seasonal) {
+                setPayload({ ...payload, query: { ...payload.query, seasonal: undefined } });
+            }
+        }
+    }, [payload, serverType]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -59,18 +72,14 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                             onChange={item => setPayload({ ...payload, query: { ...query, item } })}
                                         />
                                     </Grid>
-                                    {(
-                                        serverType === Game.ServerType.Seasonal ||
-                                        serverType === Game.ServerType.SeasonalHardcore
-                                    ) && (
-                                            <Grid item xs={12}>
-                                                <SearchFilterSeasonal
-                                                    value={query.seasonal}
-                                                    onChange={seasonal => setPayload({ ...payload, query: { ...query, seasonal } })}
-                                                />
-                                            </Grid>
-                                        )
-                                    }
+                                    {SEASONAL_SERVERS.includes(serverType) && (
+                                        <Grid item xs={12}>
+                                            <SearchFilterSeasonal
+                                                value={query.seasonal}
+                                                onChange={seasonal => setPayload({ ...payload, query: { ...query, seasonal } })}
+                                            />
+                                        </Grid>
+                                    )}
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={6}>
