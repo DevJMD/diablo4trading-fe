@@ -9,6 +9,7 @@ import { Box, Button, Card, Collapse, Grid } from '@mui/material';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useServerType } from '../providers';
+import { SearchFilterAffix } from './search-filter-affix.component';
 import { SearchFilterItem } from './search-filter-item.component';
 import { SearchFilterSeasonal } from './search-filter-seasonal.component';
 
@@ -73,10 +74,10 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                {/* <SearchFilterAffixes
-                                    value={query.affixes}
-                                    onChange={affixes => setPayload({ ...payload, query: { ...query, affixes } })}
-                                /> */}
+                                <SearchFilterAffix
+                                    value={query.affix}
+                                    onChange={affix => setPayload({ ...payload, query: { ...query, affix } })}
+                                />
                             </Grid>
                         </Grid>
                     </Box>
