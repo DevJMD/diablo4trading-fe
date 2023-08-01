@@ -1,0 +1,137 @@
+import { Game } from '@diablosnaps/common';
+import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RestoreIcon from '@mui/icons-material/Restore';
+import SearchIcon from '@mui/icons-material/Search';
+import { Box, Button, Card, Collapse, Grid } from '@mui/material';
+import { API } from '@sanctuaryteam/shared';
+import React from 'react';
+import { useServerType } from '../providers';
+import { SearchFilterAffixes } from './search-filter-affixes.component';
+import { SearchFilterItem } from './search-filter-item.component';
+import { SearchFilterSeasonal } from './search-filter-seasonal.component';
+
+interface SearchFilterProps {
+    request: API.SearchRequest;
+    onSearch: (request: API.SearchRequest) => void;
+    searching?: boolean;
+}
+
+export const SearchFilter: React.FC<SearchFilterProps> = ({
+    request: initialRequest,
+    onSearch,
+    searching,
+}) => {
+    const { i18n } = useLingui();
+
+    const serverType = useServerType();
+
+    const [visible, setVisible] = React.useState<boolean>(true);
+    const [request, setRequest] = React.useState<API.SearchRequest>(initialRequest);
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        onSearch(request);
+        setVisible(false);
+    };
+
+    const handleClear = () => {
+        setRequest({});
+    };
+
+    const {
+        query = {},
+    } = request;
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Card sx={{ p: 2, pt: 0 }}>
+                <Collapse in={visible}>
+                    <Box pt={2}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <Grid container item spacing={2}>
+                                    <Grid item xs={12}>
+                                        <SearchFilterItem
+                                            value={query.item}
+                                            onChange={item => setRequest({ ...request, query: { ...query, item } })}
+                                        />
+                                    </Grid>
+                                    {(
+                                        serverType === Game.ServerType.Seasonal ||
+                                        serverType === Game.ServerType.SeasonalHardcore
+                                    ) && (
+                                            <Grid item xs={12}>
+                                                <SearchFilterSeasonal
+                                                    value={query.seasonal}
+                                                    onChange={seasonal => setRequest({ ...request, query: { ...query, seasonal } })}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <SearchFilterAffixes
+                                    value={query.affixes}
+                                    onChange={affixes => setRequest({ ...request, query: { ...query, affixes } })}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Collapse>
+                <Box pt={2}>
+                    <Grid container spacing={1}>
+                        <Grid item sx={{ xs: 'hidden' }} sm={4} />
+                        <Grid item xs={12} md={4}>
+                            <Button
+                                variant='outlined'
+                                fullWidth
+                                onClick={handleSubmit}
+                                startIcon={!searching ? <SearchIcon /> : undefined}
+                                disabled={searching}
+                            >
+                                {!searching
+                                    ? t(i18n)`Search`
+                                    : t(i18n)`Searching...`}
+                            </Button>
+                        </Grid>
+                        <Grid
+                            item xs={12} md={4}
+                            display='flex'
+                            justifyContent='flex-end'
+                            sx={theme => ({
+                                [theme.breakpoints.down('sm')]: {
+                                    justifyContent: 'space-between',
+                                },
+                            })}
+                            gap={1}
+                        >
+                            <Button
+                                variant='outlined'
+                                onClick={handleClear}
+                                startIcon={<RestoreIcon />}
+                                disabled={searching}
+                            >
+                                {t(i18n)`Clear`}
+                            </Button>
+                            <Button
+                                variant='outlined'
+                                color='secondary'
+                                onClick={() => setVisible(!visible)}
+                                endIcon={visible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                            >
+                                {visible
+                                    ? t(i18n)`Hide Filters`
+                                    : t(i18n)`Show Filters`
+                                }
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Card>
+        </form>
+    )
+}

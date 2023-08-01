@@ -1,0 +1,15 @@
+export enum Language {
+    German = 'de-DE',
+    English = 'en-US',
+    Spanish = 'es-ES',
+    French = 'fr-FR',
+    Italian = 'it-IT',
+    Japanese = 'ja-JP',
+    Korean = 'ko-KR',
+    Polish = 'pl-PL',
+    Portuguese = 'pt-PT',
+    Russian = 'ru-RU',
+    Turkish = 'tr-TR',
+    SimplifiedChinese = 'zh-CN',
+    TraditionalChinese = 'zh-TW',
+}
