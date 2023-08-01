@@ -7,7 +7,7 @@ interface NumberInputProps {
     value: number;
     onChange: (value: number) => void;
     label?: string;
-    placeholder?: string;
+    helperText?: string;
     min?: number;
     max?: number;
     disabled?: boolean;
@@ -17,7 +17,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     value,
     onChange,
     label,
-    placeholder,
+    helperText,
     min,
     max,
     disabled,
@@ -26,27 +26,36 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     useEffect(() => {
         setTextValue(toString(value));
     }, [value])
+
+    const setValue = (next: number) => {
+        if (next === value) {
+            setTextValue(toString(value));
+            return;
+        }
+        onChange(next);
+    }
+
     return (
         <TextField
             value={textValue}
             label={label}
-            placeholder={placeholder}
+            helperText={helperText}
             onChange={e => setTextValue(e.target.value)}
             onBlur={() => {
                 const numericValue = parseInt(textValue)
                 if (isNaN(numericValue)) {
-                    onChange(undefined);
+                    setValue(undefined);
                     return;
                 }
                 if (min !== undefined && numericValue < min) {
-                    onChange(min);
+                    setValue(min);
                     return;
                 }
                 if (max !== undefined && numericValue > max) {
-                    onChange(max);
+                    setValue(max);
                     return;
                 }
-                onChange(numericValue);
+                setValue(numericValue);
             }}
             disabled={disabled}
         />

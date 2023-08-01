@@ -2,34 +2,34 @@ import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SearchFilter } from '../components';
-import { parseSearchRequest, stringifySearchRequest } from '../utils';
+import { parseSearchPayload, stringifySearchPayload } from '../utils';
 
-const PARAM_REQUEST = 'r';
+const PARAM_PAYLOAD = 'p';
 
 export const SearchPage: React.FC = (
 
 ) => {
     const [params, setParams] = useSearchParams();
 
-    const stringifiedRequest = params.get(PARAM_REQUEST);
+    const stringifiedPayload = params.get(PARAM_PAYLOAD);
 
-    const request = React.useMemo(() => {
-        return parseSearchRequest(stringifiedRequest);
-    }, [stringifiedRequest]);
-    const setRequest = React.useCallback((request: API.SearchRequest) => {
+    const payload = React.useMemo(() => {
+        return parseSearchPayload(stringifiedPayload);
+    }, [stringifiedPayload]);
+    const setPayload = React.useCallback((payload: API.SearchPayload) => {
         setParams({
-            [PARAM_REQUEST]: stringifySearchRequest(request)
+            [PARAM_PAYLOAD]: stringifySearchPayload(payload)
         });
     }, [setParams]);
 
-    const handleSearch = React.useCallback((request: API.SearchRequest) => {
-        setRequest(request);
-    }, [setRequest]);
+    const handleSearch = React.useCallback((payload: API.SearchPayload) => {
+        setPayload(payload);
+    }, [setPayload]);
 
     return (
         <React.Fragment>
             <SearchFilter
-                request={request}
+                payload={payload}
                 onSearch={handleSearch}
             />
         </React.Fragment>

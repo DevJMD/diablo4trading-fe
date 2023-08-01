@@ -9,41 +9,54 @@ import { Box, Button, Card, Collapse, Grid } from '@mui/material';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useServerType } from '../providers';
-import { SearchFilterAffixes } from './search-filter-affixes.component';
+import { SearchFilterAffix } from './search-filter-affix.component';
 import { SearchFilterItem } from './search-filter-item.component';
 import { SearchFilterSeasonal } from './search-filter-seasonal.component';
 
+const SEASONAL_SERVERS = [
+    Game.ServerType.Seasonal,
+    Game.ServerType.SeasonalHardcore,
+];
+
 interface SearchFilterProps {
-    request: API.SearchRequest;
-    onSearch: (request: API.SearchRequest) => void;
+    payload: API.SearchPayload;
+    onSearch: (payload: API.SearchPayload) => void;
     searching?: boolean;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = ({
-    request: initialRequest,
+    payload: initialPayload,
     onSearch,
     searching,
 }) => {
     const { i18n } = useLingui();
 
-    const serverType = useServerType();
+    const [serverType] = useServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
-    const [request, setRequest] = React.useState<API.SearchRequest>(initialRequest);
+    const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
+
+    React.useEffect(() => {
+        if (!SEASONAL_SERVERS.includes(serverType)) {
+            if (payload.query?.seasonal) {
+                setPayload({ ...payload, query: { ...payload.query, seasonal: undefined } });
+            }
+        }
+    }, [payload, serverType]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch(request);
+        onSearch(payload);
         setVisible(false);
     };
 
     const handleClear = () => {
-        setRequest({});
+        setPayload({});
     };
 
     const {
         query = {},
-    } = request;
+    } = payload;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -56,27 +69,23 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                     <Grid item xs={12}>
                                         <SearchFilterItem
                                             value={query.item}
-                                            onChange={item => setRequest({ ...request, query: { ...query, item } })}
+                                            onChange={item => setPayload({ ...payload, query: { ...query, item } })}
                                         />
                                     </Grid>
-                                    {(
-                                        serverType === Game.ServerType.Seasonal ||
-                                        serverType === Game.ServerType.SeasonalHardcore
-                                    ) && (
-                                            <Grid item xs={12}>
-                                                <SearchFilterSeasonal
-                                                    value={query.seasonal}
-                                                    onChange={seasonal => setRequest({ ...request, query: { ...query, seasonal } })}
-                                                />
-                                            </Grid>
-                                        )
-                                    }
+                                    {SEASONAL_SERVERS.includes(serverType) && (
+                                        <Grid item xs={12}>
+                                            <SearchFilterSeasonal
+                                                value={query.seasonal}
+                                                onChange={seasonal => setPayload({ ...payload, query: { ...query, seasonal } })}
+                                            />
+                                        </Grid>
+                                    )}
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <SearchFilterAffixes
-                                    value={query.affixes}
-                                    onChange={affixes => setRequest({ ...request, query: { ...query, affixes } })}
+                                <SearchFilterAffix
+                                    value={query.affix}
+                                    onChange={affix => setPayload({ ...payload, query: { ...query, affix } })}
                                 />
                             </Grid>
                         </Grid>

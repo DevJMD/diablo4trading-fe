@@ -914,10 +914,10 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.7.2.tgz#cba1cf0a04bc04cb66027c51fa600e9cbc388bc8"
   integrity sha512-7Lcn7IqGMV+vizMPoEl5F0XDshcdDYtMI6uJLQdQz5CfZAwy3vvGKYSUk789qndt5dEC4HfSjviSYlSoHGL2+A==
 
-"@sanctuaryteam/shared@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@sanctuaryteam/shared/0.1.0/4c7dcabb5670d275e7ec75b5e2c227d60ddbaf88#4c7dcabb5670d275e7ec75b5e2c227d60ddbaf88"
-  integrity sha512-bR79YFUmsfDtDLYO+cCCWZ29xcIWSZf2PNDDzRNzotAR2k5bQiRfRTfdtHbAj9PT3j2ssxFf/HSkTAdN00NsxA==
+"@sanctuaryteam/shared@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@sanctuaryteam/shared/0.1.1/42d04c61f7055d31e8b3c7321c1c66e227b98296#42d04c61f7055d31e8b3c7321c1c66e227b98296"
+  integrity sha512-nQI954w4HLUXflDbYEIcJ1Jd6WDO3HUDBwXmEdHriczVLSLInU7gp7PGOjeYnB+Ocy1+vnvd9XMOxsURZXA9Vw==
   dependencies:
     "@diablosnaps/common" "^0.2.5"
 

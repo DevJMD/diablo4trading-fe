@@ -176,6 +176,7 @@ export const ItemAffixInput: React.FC<ItemAffixInputProps> = ({
                 option,
                 state.index
             ] as React.ReactNode}
+            fullWidth
             disabled={disabled}
         />
     )
