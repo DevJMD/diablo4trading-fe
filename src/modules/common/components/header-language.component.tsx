@@ -1,15 +1,15 @@
-import { I18n } from '@modules/i18n';
 import { Redux } from '@modules/redux';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Button, Menu, MenuItem } from '@mui/material';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { useRouteLanguage } from '../providers';
 
 export const HeaderLanguage: React.FC = (
 
 ) => {
     const location = useLocation();
-    const [routeLanguage, setRouteLanguage] = I18n.useRouteLanguage();
+    const [routeLanguage, setRouteLanguage] = useRouteLanguage();
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement>();
     const open = Boolean(anchorEl);
