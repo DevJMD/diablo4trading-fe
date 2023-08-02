@@ -17,7 +17,7 @@ export const DiscordAuthPage: React.FC = (
     });
     const code = params.get('code');
 
-    const { isFetching, isError, isSuccess } = Redux.useAuthDiscordCallbackQuery(code);
+    const { isFetching, isError, isSuccess } = Redux.useAuthDiscordCallbackQuery({ code });
 
     useEffect(() => {
         if (isSuccess) {

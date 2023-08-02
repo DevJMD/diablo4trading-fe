@@ -1,5 +1,6 @@
 import { API_ENDPOINT } from '@config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API } from '@sanctuaryteam/shared';
 import { AuthSelectors } from '../auth/selectors';
 import { RootState } from '../root';
 
@@ -18,8 +19,8 @@ export const BackendSlice = createApi({
     }),
     endpoints: (builder) => ({
         // auth
-        authDiscordCallback: builder.query<{ token: string }, string>({
-            query: (code) => ({
+        authDiscordCallback: builder.query<API.AuthCallbackResponse, API.AuthCallbackParams>({
+            query: ({ code }) => ({
                 // TODO: should also return user
                 url: '/auth/discord/callback',
                 method: 'GET',

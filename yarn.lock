@@ -933,10 +933,10 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@sanctuaryteam/shared@^0.1.1":
-  version "0.1.1"
-  resolved "https://npm.pkg.github.com/download/@sanctuaryteam/shared/0.1.1/42d04c61f7055d31e8b3c7321c1c66e227b98296#42d04c61f7055d31e8b3c7321c1c66e227b98296"
-  integrity sha512-nQI954w4HLUXflDbYEIcJ1Jd6WDO3HUDBwXmEdHriczVLSLInU7gp7PGOjeYnB+Ocy1+vnvd9XMOxsURZXA9Vw==
+"@sanctuaryteam/shared@^0.1.2":
+  version "0.1.2"
+  resolved "https://npm.pkg.github.com/download/@sanctuaryteam/shared/0.1.2/446ebffb753cb2aaed055435435064532a384875#446ebffb753cb2aaed055435435064532a384875"
+  integrity sha512-mLU2BIcUDs8uqY7IRKEHqHrxPTSL3jq0yY2WjVgRep+nOXK9ovFiIRHA45Gp+lJ/yNJ5wKn/TJqGLSF0haHH7g==
   dependencies:
     "@diablosnaps/common" "^0.2.5"
 

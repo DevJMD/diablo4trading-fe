@@ -25,6 +25,7 @@ export const AuthSlice = createSlice({
         builder
             .addMatcher(BackendSlice.endpoints.authDiscordCallback.matchFulfilled, (state, action) => {
                 state.token = action.payload.token;
+                state.user = action.payload.user;
             })
     }
 });

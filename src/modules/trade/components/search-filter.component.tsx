@@ -52,6 +52,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 
     const handleClear = () => {
         setPayload({});
+        setVisible(true);
     };
 
     const {
