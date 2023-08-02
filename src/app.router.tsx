@@ -1,9 +1,21 @@
+import { Auth } from '@modules/auth';
+import { Common } from '@modules/common';
+import { I18n } from '@modules/i18n';
+import { Trade } from '@modules/trade';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
-import { Common } from './modules/common';
-import { I18n } from './modules/i18n';
-import { Trade } from './modules/trade';
 
 export const router = createBrowserRouter([
+    {
+        path: 'auth/*',
+        element: (
+            <I18n.Switch language={I18n.Language.English}>
+                {/* TODO: could resolve the language based on the cookie */}
+                <Common.MasterLayout hideHeader>
+                    <Auth.Element />
+                </Common.MasterLayout>
+            </I18n.Switch>
+        )
+    },
     {
         path: ':language?',
         element: (
