@@ -1,48 +1,44 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
+import { Redux } from '@modules/redux';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { English, French, German, Italian, Japanese, Korean, Polish, Portuguese, Russian, SimplifiedChinese, Spanish, TraditionalChinese, Turkish } from '../languages';
-import { useLanguage } from '../providers';
-import { Language } from '../types';
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-i18n.load(Language.German, German);
-i18n.load(Language.English, English);
-i18n.load(Language.Spanish, Spanish);
-i18n.load(Language.French, French);
-i18n.load(Language.Italian, Italian);
-i18n.load(Language.Japanese, Japanese);
-i18n.load(Language.Korean, Korean);
-i18n.load(Language.Polish, Polish);
-i18n.load(Language.Portuguese, Portuguese);
-i18n.load(Language.Russian, Russian);
-i18n.load(Language.Turkish, Turkish);
-i18n.load(Language.SimplifiedChinese, SimplifiedChinese);
-i18n.load(Language.TraditionalChinese, TraditionalChinese);
+i18n.load(Redux.UserLanguage.German, German);
+i18n.load(Redux.UserLanguage.English, English);
+i18n.load(Redux.UserLanguage.Spanish, Spanish);
+i18n.load(Redux.UserLanguage.French, French);
+i18n.load(Redux.UserLanguage.Italian, Italian);
+i18n.load(Redux.UserLanguage.Japanese, Japanese);
+i18n.load(Redux.UserLanguage.Korean, Korean);
+i18n.load(Redux.UserLanguage.Polish, Polish);
+i18n.load(Redux.UserLanguage.Portuguese, Portuguese);
+i18n.load(Redux.UserLanguage.Russian, Russian);
+i18n.load(Redux.UserLanguage.Turkish, Turkish);
+i18n.load(Redux.UserLanguage.SimplifiedChinese, SimplifiedChinese);
+i18n.load(Redux.UserLanguage.TraditionalChinese, TraditionalChinese);
 /* eslint-enable @typescript-eslint/no-unsafe-argument */
 
 interface SwitchProps {
-    language?: Language;
     children?: React.ReactNode;
 }
 
 export const Switch: React.FC<SwitchProps> = ({
-    language: fallbackLanguage,
     children
 }) => {
-    const { language } = useLanguage() || {
-        language: fallbackLanguage
-    };
-    const [current, setCurrent] = React.useState<Language>();
+    const language = useSelector(Redux.UserSelectors.getLanguage);
+    const [active, setActive] = React.useState<Redux.UserLanguage>();
 
     React.useEffect(() => {
-        if (current !== language) {
-            setCurrent(language);
+        if (active !== language) {
+            setActive(language);
             i18n.activate(language);
         }
-    }, [current, language]);
+    }, [active, language]);
 
-    if (!current) {
+    if (!active) {
         return null;
     }
 

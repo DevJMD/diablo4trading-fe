@@ -1,4 +1,5 @@
 import { I18n } from '@modules/i18n';
+import { Redux } from '@modules/redux';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Button, Menu, MenuItem } from '@mui/material';
 import React from 'react';
@@ -8,7 +9,7 @@ export const HeaderLanguage: React.FC = (
 
 ) => {
     const location = useLocation();
-    const i18n = I18n.useLanguage();
+    const [routeLanguage, setRouteLanguage] = I18n.useRouteLanguage();
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement>();
     const open = Boolean(anchorEl);
@@ -21,8 +22,8 @@ export const HeaderLanguage: React.FC = (
         setAnchorEl(undefined);
     }
 
-    const handleLanguageChange = (language: I18n.Language) => {
-        i18n.setLanguage(language, location);
+    const handleLanguageChange = (language: Redux.UserLanguage) => {
+        setRouteLanguage(language, location);
         setAnchorEl(undefined);
     };
 
@@ -33,7 +34,7 @@ export const HeaderLanguage: React.FC = (
                 color='secondary'
                 onClick={handleClick}
             >
-                {I18n.getLanguageName(i18n.language)}
+                {Redux.getLanguageName(routeLanguage)}
             </Button>
             <Menu
                 anchorEl={anchorEl}
@@ -46,13 +47,13 @@ export const HeaderLanguage: React.FC = (
                     }
                 }]}
             >
-                {Object.values(I18n.Language).map((language) => (
+                {Object.values(Redux.UserLanguage).map((language) => (
                     <MenuItem
                         key={language}
                         onClick={() => handleLanguageChange(language)}
-                        sx={{ color: i18n.language === language ? 'secondary.main' : undefined }}
+                        sx={{ color: language === routeLanguage ? 'secondary.main' : undefined }}
                     >
-                        {I18n.getLanguageName(language)}
+                        {Redux.getLanguageName(language)}
                     </MenuItem>
                 ))}
             </Menu>

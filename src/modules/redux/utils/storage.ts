@@ -1,4 +1,4 @@
-export type StorageKey = 'auth';
+export type StorageKey = 'auth' | 'user';
 
 export const STORAGE = {
     get: <T>(key: StorageKey) => {

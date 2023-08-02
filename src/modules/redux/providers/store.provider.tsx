@@ -3,10 +3,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BackendSlice } from '../slices/backend/slice';
 import { ROOT_STATE_INITIAL, rootReducer } from '../slices/root';
+import { UserLanguage, retrieveLanguageFromNavigator } from '../slices/user';
 import { STORAGE } from '../utils';
 
 interface StoreProviderProps {
-    children?: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export const StoreProvider: React.FC<StoreProviderProps> = ({
@@ -20,6 +21,13 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({
             ...preloadedState.auth,
             ...(STORAGE.get('auth') || {})
         };
+        preloadedState.user = {
+            ...preloadedState.user,
+            ...(STORAGE.get('user') || {})
+        };
+        if (!preloadedState.user.language) {
+            preloadedState.user.language = retrieveLanguageFromNavigator(UserLanguage.English);
+        }
 
         const store = configureStore({
             reducer: rootReducer,
@@ -33,6 +41,8 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({
             next = store.getState();
             if (prev.auth !== next.auth) {
                 STORAGE.set('auth', next.auth);
+            } else if (prev.user !== next.user) {
+                STORAGE.set('user', next.user);
             }
         });
         return store;

@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import React from 'react';
 import { useNavigate, useResolvedPath } from 'react-router';
 import { matchPath, useMatches } from 'react-router-dom';
-import { useAssets, useServerType } from '../providers';
+import { useAssets, useRouteServerType } from '../providers';
 
 const ServerTypeIcon = styled('img')(() => ({
     width: 48,
@@ -26,7 +26,7 @@ export const MasterLayout: React.FC<MasterLayoutProps> = ({
     const { i18n } = useLingui();
     const { language, translations } = useAssets();
 
-    const [serverType, setServerType] = useServerType();
+    const [serverType, setServerType] = useRouteServerType();
     const handleServerTypeClick = (offset: number) => {
         const serverTypes = Object.values(Game.ServerType);
         const index = serverTypes.indexOf(serverType);

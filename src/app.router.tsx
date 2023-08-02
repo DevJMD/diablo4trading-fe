@@ -8,24 +8,19 @@ export const router = createBrowserRouter([
     {
         path: 'auth/*',
         element: (
-            <I18n.Switch language={I18n.Language.English}>
-                {/* TODO: could resolve the language based on the cookie */}
-                <Common.MasterLayout hideHeader>
-                    <Auth.Element />
-                </Common.MasterLayout>
-            </I18n.Switch>
+            <Common.MasterLayout hideHeader>
+                <Auth.Element />
+            </Common.MasterLayout>
         )
     },
     {
         path: ':language?',
         element: (
-            <I18n.LanguageProvider>
-                <I18n.Switch>
-                    <Common.MasterLayout>
-                        <Outlet />
-                    </Common.MasterLayout>
-                </I18n.Switch>
-            </I18n.LanguageProvider>
+            <I18n.RouteLanguageProvider indexPath='trade'>
+                <Common.MasterLayout>
+                    <Outlet />
+                </Common.MasterLayout>
+            </I18n.RouteLanguageProvider>
         ),
         children: [
             { index: true, element: <Navigate to='trade' replace /> },

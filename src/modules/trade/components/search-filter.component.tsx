@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Card, Collapse, Grid } from '@mui/material';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
-import { useServerType } from '../providers';
+import { useRouteServerType } from '../providers';
 import { SearchFilterAffix } from './search-filter-affix.component';
 import { SearchFilterItem } from './search-filter-item.component';
 import { SearchFilterSeasonal } from './search-filter-seasonal.component';
@@ -31,7 +31,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 }) => {
     const { i18n } = useLingui();
 
-    const [serverType] = useServerType();
+    const [serverType] = useRouteServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
     const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
