@@ -2,7 +2,18 @@ import logo from '@assets/logo.webp';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Container, Drawer, IconButton, Tab as MuiTab, Stack, Tabs, Toolbar, Typography } from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Container,
+    Drawer,
+    IconButton,
+    Tab as MuiTab,
+    Stack,
+    Tabs,
+    Toolbar,
+    Typography,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 import { matchPath, useMatches, useNavigate, useResolvedPath } from 'react-router-dom';
@@ -20,28 +31,28 @@ const Logo = styled('img')(() => ({
     height: 'auto',
 }));
 Logo.defaultProps = {
-    src: logo
+    src: logo,
 };
 
 export const HEADER_HEIGHT = 48;
 
-export const Header: React.FC = (
-
-) => {
+export const Header: React.FC = () => {
     const { i18n } = useLingui();
 
     const navigate = useNavigate();
     const matches = useMatches();
 
     // TODO: add routes
-    const tradePath = useResolvedPath('./trade');
-    const servicesPath = useResolvedPath('./services');
+    const tradePath = useResolvedPath('trade');
+    const servicesPath = useResolvedPath('services');
+    const feedbackPath = useResolvedPath('./feedback');
     const faqPath = useResolvedPath('./faq');
 
     const items = [
         { ...tradePath, label: t(i18n)`Trade` },
         { ...servicesPath, label: t(i18n)`Services` },
-        { ...faqPath, label: t(i18n)`FAQ` }
+        { ...feedbackPath, label: t(i18n)`Feedback` },
+        { ...faqPath, label: t(i18n)`FAQ` },
     ];
 
     const handleRootRedirect = () => {
@@ -50,16 +61,22 @@ export const Header: React.FC = (
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
-        setMobileOpen(prev => !prev);
+        setMobileOpen((prev) => !prev);
     };
 
-    const tabValue = Math.max(0, items.findIndex(p => {
-        const match = matchPath({
-            path: p.pathname,
-            end: false
-        }, matches[matches.length - 1].pathname);
-        return match !== null;
-    }));
+    const tabValue = Math.max(
+        0,
+        items.findIndex((p) => {
+            const match = matchPath(
+                {
+                    path: p.pathname,
+                    end: false,
+                },
+                matches[matches.length - 1].pathname
+            );
+            return match !== null;
+        })
+    );
 
     const handleTabClick = (index: number) => {
         navigate(items[index]);
@@ -68,10 +85,19 @@ export const Header: React.FC = (
 
     return (
         <Box component='header'>
-            <AppBar position='sticky' component='nav'>
+            <AppBar
+                position='sticky'
+                component='nav'
+            >
                 <Container maxWidth='xl'>
-                    <Toolbar variant='dense' disableGutters>
-                        <Stack direction='row' gap={2}>
+                    <Toolbar
+                        variant='dense'
+                        disableGutters
+                    >
+                        <Stack
+                            direction='row'
+                            gap={2}
+                        >
                             <IconButton
                                 edge='start'
                                 onClick={handleDrawerToggle}
@@ -84,11 +110,15 @@ export const Header: React.FC = (
                                 sx={{
                                     display: { xs: 'none', sm: 'flex' },
                                     alignItems: 'center',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                 }}
                             >
                                 <Logo />
-                                <Typography variant='h6' component='div' ml={1}>
+                                <Typography
+                                    variant='h6'
+                                    component='div'
+                                    ml={1}
+                                >
                                     {APP_NAME}
                                 </Typography>
                             </Box>
@@ -106,7 +136,10 @@ export const Header: React.FC = (
                             </Tabs>
                         </Stack>
                         <Box flexGrow={1} />
-                        <Stack direction='row' gap={1}>
+                        <Stack
+                            direction='row'
+                            gap={1}
+                        >
                             <HeaderUser />
                             <HeaderLanguage />
                         </Stack>
@@ -121,7 +154,7 @@ export const Header: React.FC = (
                     ModalProps={{ keepMounted: true }}
                     sx={{
                         display: { xs: 'block', md: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 192 }
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 192 },
                     }}
                 >
                     <Box
@@ -130,11 +163,16 @@ export const Header: React.FC = (
                             display: 'flex',
                             alignItems: 'center',
                             cursor: 'pointer',
-                            p: 2, pb: 1
+                            p: 2,
+                            pb: 1,
                         }}
                     >
                         <Logo />
-                        <Typography variant='h6' component='div' ml={1}>
+                        <Typography
+                            variant='h6'
+                            component='div'
+                            ml={1}
+                        >
                             {APP_NAME}
                         </Typography>
                     </Box>
@@ -153,5 +191,5 @@ export const Header: React.FC = (
                 </Drawer>
             </Box>
         </Box>
-    )
-}
+    );
+};

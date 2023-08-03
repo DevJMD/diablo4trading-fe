@@ -21,25 +21,24 @@ interface RouteServerTypeProviderParams {
 }
 
 interface RouteServerTypeProviderProps {
-    indexPath: string;
     children: React.ReactNode;
 }
 
-export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = ({
-    indexPath,
-    children,
-}) => {
+export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = ({ children }) => {
     const store = useStore();
     const navigate = useNavigate();
 
     const params: RouteServerTypeProviderParams = useParams();
 
     const routeServerType = ROUTE_MAPPING_REVERSE[params.serverType ?? ''];
-    const setRouteServerType = React.useCallback((serverType: Game.ServerType) => {
-        store.dispatch(Redux.UserSlice.actions.setServerType(serverType));
-        const pathname = ROUTE_MAPPING[serverType];
-        navigate(`./../${pathname}/${indexPath}`)
-    }, [indexPath, navigate, store]);
+    const setRouteServerType = React.useCallback(
+        (serverType: Game.ServerType) => {
+            store.dispatch(Redux.UserSlice.actions.setServerType(serverType));
+            const pathname = ROUTE_MAPPING[serverType];
+            navigate(`./../${pathname}`);
+        },
+        [navigate, store]
+    );
 
     const routeIncludesServerType = !!routeServerType;
 
@@ -48,9 +47,9 @@ export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = (
             const state = store.getState() as Redux.RootState;
             const serverType = Redux.UserSelectors.getServerType(state);
             const pathname = ROUTE_MAPPING[serverType];
-            navigate(`./${pathname}/${indexPath}`)
+            navigate(`./${pathname}`);
         }
-    }, [routeIncludesServerType, navigate, store, indexPath])
+    }, [routeIncludesServerType, navigate, store]);
 
     const value = React.useMemo<RouteServerTypeContext>(() => {
         return [routeServerType, setRouteServerType];
@@ -59,10 +58,7 @@ export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = (
     if (!routeIncludesServerType) {
         return null;
     }
-
     return (
-        <RouteServerTypeContext.Provider value={value}>
-            {children}
-        </RouteServerTypeContext.Provider>
-    )
-}
+        <RouteServerTypeContext.Provider value={value}>{children}</RouteServerTypeContext.Provider>
+    );
+};

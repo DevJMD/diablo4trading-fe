@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
             <MasterLayout hideHeader>
                 <RouteAuth.Element />
             </MasterLayout>
-        )
+        ),
     },
     {
         path: ':language?',
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
             <Common.RouteLanguageProvider indexPath='trade'>
                 <MasterLayout>
                     <Common.AssetsProvider>
-                        {loading => {
+                        {(loading) => {
                             if (loading) {
                                 return (
                                     <Common.FloatingPanel>
@@ -36,10 +36,18 @@ export const router = createBrowserRouter([
             </Common.RouteLanguageProvider>
         ),
         children: [
-            { index: true, element: <Navigate to='trade' replace /> },
+            {
+                index: true,
+                element: (
+                    <Navigate
+                        to='trade'
+                        replace
+                    />
+                ),
+            },
             { path: 'trade/*', element: <RouteTrade.Element /> },
             { path: 'services/*', element: <RouteServices.Element /> },
-            { path: '*', element: <NotFoundPage /> }
-        ]
-    }
+            { path: '*', element: <NotFoundPage /> },
+        ],
+    },
 ]);

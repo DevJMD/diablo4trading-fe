@@ -6,9 +6,7 @@ import { parseSearchPayload, stringifySearchPayload } from '../utils';
 
 const PARAM_PAYLOAD = 'p';
 
-export const SearchPage: React.FC = (
-
-) => {
+export const SearchPage: React.FC = () => {
     const [params, setParams] = useSearchParams();
 
     const stringifiedPayload = params.get(PARAM_PAYLOAD);
@@ -16,15 +14,22 @@ export const SearchPage: React.FC = (
     const payload = React.useMemo(() => {
         return parseSearchPayload(stringifiedPayload);
     }, [stringifiedPayload]);
-    const setPayload = React.useCallback((payload: API.SearchPayload) => {
-        setParams({
-            [PARAM_PAYLOAD]: stringifySearchPayload(payload)
-        });
-    }, [setParams]);
 
-    const handleSearch = React.useCallback((payload: API.SearchPayload) => {
-        setPayload(payload);
-    }, [setPayload]);
+    const setPayload = React.useCallback(
+        (payload: API.SearchPayload) => {
+            setParams({
+                [PARAM_PAYLOAD]: stringifySearchPayload(payload),
+            });
+        },
+        [setParams]
+    );
+
+    const handleSearch = React.useCallback(
+        (payload: API.SearchPayload) => {
+            setPayload(payload);
+        },
+        [setPayload]
+    );
 
     return (
         <React.Fragment>
@@ -34,4 +39,4 @@ export const SearchPage: React.FC = (
             />
         </React.Fragment>
     );
-}
+};
