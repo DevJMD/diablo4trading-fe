@@ -18,46 +18,51 @@ const SEASONAL_SERVERS = [Game.ServerType.Seasonal, Game.ServerType.SeasonalHard
 const isSeasonalItemType = (type: Game.ItemType) => [Game.ItemType.Amulet, Game.ItemType.Ring].includes(type);
 
 interface SearchFilterProps {
-    payload: API.SearchPayload;
-    onSearch: (payload: API.SearchPayload) => void;
-    searching?: boolean;
+    search: API.TradeSearch;
+    onSearch: (search: API.TradeSearch) => void;
+    disabled?: boolean;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = ({
-    payload: initialPayload,
+    search: initialSearch,
     onSearch,
-    searching,
+    disabled,
 }) => {
     const { i18n } = useLingui();
 
     const [serverType, setServerType] = Common.useRouteServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
-    const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
+    const [search, setSearch] = React.useState<API.TradeSearch>(initialSearch || {});
+
+    React.useEffect(() => {
+        if (!initialSearch) return;
+        setSearch(initialSearch);
+    }, [initialSearch]);
 
     const {
         query = {},
-    } = payload;
+    } = search;
 
     React.useEffect(() => {
-        if (!SEASONAL_SERVERS.includes(serverType) || !isSeasonalItemType(payload.query?.item?.type)) {
-            if (payload.query?.seasonal) {
-                setPayload({
-                    ...payload,
-                    query: { ...payload.query, seasonal: undefined },
+        if (!SEASONAL_SERVERS.includes(serverType) || !isSeasonalItemType(search.query?.item?.type)) {
+            if (search.query?.seasonal) {
+                setSearch({
+                    ...search,
+                    query: { ...search.query, seasonal: undefined },
                 });
             }
         }
-    }, [payload, serverType]);
+    }, [search, serverType]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch(payload);
+        onSearch(search);
         setVisible(false);
     };
 
     const handleClear = () => {
-        setPayload({});
+        setSearch({});
         setVisible(true);
     };
 
@@ -73,8 +78,8 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                         <SearchFilterItem
                                             value={query.item}
                                             onChange={(item) =>
-                                                setPayload({
-                                                    ...payload,
+                                                setSearch({
+                                                    ...search,
                                                     query: { ...query, item },
                                                 })}
                                         />
@@ -84,8 +89,8 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                             <SearchFilterSeasonal
                                                 value={query.seasonal}
                                                 onChange={(seasonal) =>
-                                                    setPayload({
-                                                        ...payload,
+                                                    setSearch({
+                                                        ...search,
                                                         query: {
                                                             ...query,
                                                             seasonal,
@@ -100,8 +105,8 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 <SearchFilterAffix
                                     value={query.affix}
                                     onChange={(affix) =>
-                                        setPayload({
-                                            ...payload,
+                                        setSearch({
+                                            ...search,
                                             query: { ...query, affix },
                                         })}
                                 />
@@ -126,10 +131,10 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 variant='outlined'
                                 fullWidth
                                 onClick={handleSubmit}
-                                startIcon={!searching ? <SearchIcon /> : undefined}
-                                disabled={searching}
+                                startIcon={!disabled ? <SearchIcon /> : undefined}
+                                disabled={disabled}
                             >
-                                {!searching ? t(i18n)`Search` : t(i18n)`Searching...`}
+                                {!disabled ? t(i18n)`Search` : t(i18n)`Searching...`}
                             </Button>
                         </Grid>
                         <Grid
@@ -149,7 +154,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 variant='outlined'
                                 onClick={handleClear}
                                 startIcon={<RestoreIcon />}
-                                disabled={searching}
+                                disabled={disabled}
                             >
                                 {t(i18n)`Clear`}
                             </Button>

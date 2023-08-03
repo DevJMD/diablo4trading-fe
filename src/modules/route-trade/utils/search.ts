@@ -2,31 +2,31 @@ import { API } from '@sanctuaryteam/shared';
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 
 type KEY =
-    | keyof API.SearchPayload
-    | keyof API.SearchPayload['query']
-    | keyof API.SearchPayload['query']['item']
-    | keyof API.SearchPayload['query']['seasonal']
-    | keyof API.SearchPayload['query']['affix']
-    | keyof API.SearchPayload['query']['affix']['options'][0]
-    | keyof API.SearchPayload['sort'];
+    | keyof API.TradeSearch
+    | keyof API.TradeSearch['query']
+    | keyof API.TradeSearch['query']['item']
+    | keyof API.TradeSearch['query']['seasonal']
+    | keyof API.TradeSearch['query']['affix']
+    | keyof API.TradeSearch['query']['affix']['options'][0]
+    | keyof API.TradeSearch['sort'];
 
 const TABLE: Record<KEY, string> = {
-    query: 'q',
-    sort: 's',
-    item: 'i',
-    seasonal: 's',
-    affix: 'a',
-    options: 'o',
-    id: 'i',
-    minValue: 'm',
-    count: 'c',
-    type: 't',
-    minPower: 'p',
+    query: 'a',
+    sort: 'b',
+    item: 'c',
+    seasonal: 'd',
+    affix: 'e',
+    options: 'f',
+    id: 'g',
+    minValue: 'h',
+    count: 'i',
+    type: 'j',
+    minPower: 'k',
     maxRequiredLevel: 'l',
-    classRestriction: 'c',
-    socketType: 's',
-    field: 'f',
-    direction: 'd',
+    classRestriction: 'm',
+    socketType: 'n',
+    field: 'o',
+    direction: 'p',
 };
 
 const REVERSE_TABLE: Record<string, KEY> = Object.fromEntries(
@@ -35,7 +35,7 @@ const REVERSE_TABLE: Record<string, KEY> = Object.fromEntries(
 
 export function parseSearchPayload(
     stringified: string,
-): API.SearchPayload {
+): API.TradeSearch {
     if (!stringified?.length) {
         return {};
     }
@@ -55,7 +55,7 @@ export function parseSearchPayload(
                 return replacement;
             }
             return value;
-        }) as API.SearchPayload;
+        }) as API.TradeSearch;
         return payload;
     } catch (error) {
         console.warn('Failed to parse search payload', error);
@@ -64,7 +64,7 @@ export function parseSearchPayload(
 }
 
 export function stringifySearchPayload(
-    payload: API.SearchPayload,
+    payload: API.TradeSearch,
 ): string {
     const minified = JSON.stringify(payload, (_, value: unknown) => {
         if (value && typeof value === 'object' && !Array.isArray(value)) {

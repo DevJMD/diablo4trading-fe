@@ -5,13 +5,15 @@ import { API } from '@sanctuaryteam/shared';
 import { ItemSocketTypeInput } from './inputs';
 
 interface SearchFilterSeasonalProps {
-    value: API.SeasonalFilter;
-    onChange: (value: API.SeasonalFilter) => void;
+    value: API.TradeSeasonalFilter;
+    onChange: (value: API.TradeSeasonalFilter) => void;
+    disabled?: boolean;
 }
 
 export const SearchFilterSeasonal: React.FC<SearchFilterSeasonalProps> = ({
-    value = {} as API.SeasonalFilter,
+    value = {} as API.TradeSeasonalFilter,
     onChange,
+    disabled,
 }) => {
     const { i18n } = useLingui();
     return (
@@ -30,6 +32,7 @@ export const SearchFilterSeasonal: React.FC<SearchFilterSeasonalProps> = ({
                     value={value.socketType}
                     onChange={(socketType) => onChange({ ...value, socketType })}
                     label={t(i18n)`Socket Type`}
+                    disabled={disabled}
                 />
             </Grid>
         </Grid>

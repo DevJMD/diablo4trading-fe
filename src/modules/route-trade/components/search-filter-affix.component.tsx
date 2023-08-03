@@ -11,11 +11,11 @@ const ITEM_AFFIX_MAX_COUNT = 4;
 const AFFIX_MIN_COUNT = 4;
 const AFFIX_MAX_COUNT = 8;
 
-function getValidOptionsCount(options: API.AffixOption[]) {
+function getValidOptionsCount(options: API.TradeAffixOption[]) {
     return options.filter((option) => option?.id !== undefined).length;
 }
 
-function getCountRange(options: API.AffixOption[]) {
+function getCountRange(options: API.TradeAffixOption[]) {
     const count = getValidOptionsCount(options);
     const min = count >= 1 ? 1 : undefined;
     const max = count >= 1 ? Math.min(count, ITEM_AFFIX_MAX_COUNT) : undefined;
@@ -23,19 +23,21 @@ function getCountRange(options: API.AffixOption[]) {
 }
 
 interface SearchFilterAffixProp {
-    value: API.AffixFilter;
-    onChange: (value: API.AffixFilter) => void;
+    value: API.TradeAffixFilter;
+    onChange: (value: API.TradeAffixFilter) => void;
+    disabled?: boolean;
 }
 
 export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
-    value = {} as API.AffixFilter,
+    value = {} as API.TradeAffixFilter,
     onChange,
+    disabled,
 }) => {
     const { i18n } = useLingui();
 
     const { options = [], count } = value;
 
-    const getNewCount = (newOptions: API.AffixOption[]) => {
+    const getNewCount = (newOptions: API.TradeAffixOption[]) => {
         const range = getCountRange(newOptions);
         let newCount: number = undefined;
         if (range.count >= 1) {
@@ -49,7 +51,7 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
         return newCount;
     };
 
-    const handleOptionChange = (index: number, update: Partial<API.AffixOption>) => {
+    const handleOptionChange = (index: number, update: Partial<API.TradeAffixOption>) => {
         const newOptions = [...options];
         newOptions[index] = {
             ...newOptions[index],
@@ -83,14 +85,8 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
 
     const range = getCountRange(options);
     return (
-        <Grid
-            container
-            spacing={1}
-        >
-            <Grid
-                item
-                xs={12}
-            >
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
                 <Typography
                     variant='subtitle2'
                     color='text.secondary'
@@ -113,9 +109,8 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                                 <Stack direction='row' alignItems='center'>
                                     {options.length > AFFIX_MIN_COUNT && (
                                         <IconButton
-                                            onClick={() => {
-                                                handleRemoveAffixClick(i);
-                                            }}
+                                            onClick={() => handleRemoveAffixClick(i)}
+                                            disabled={disabled}
                                             sx={{ color: 'text.secondary' }}
                                         >
                                             <DeleteIcon />
@@ -123,22 +118,20 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                                     )}
                                     <ItemAffixInput
                                         value={option.id}
-                                        onChange={(id) => {
-                                            handleOptionChange(i, { id });
-                                        }}
+                                        onChange={(id) => handleOptionChange(i, { id })}
                                         label={t(i18n)`Affix ${i + 1}`}
                                         placeholder={placeholder}
+                                        disabled={disabled}
                                     />
                                 </Stack>
                             </Grid>
                             <Grid item xs={3}>
                                 <NumberInput
                                     value={option.minValue}
-                                    onChange={(minValue) => {
-                                        handleOptionChange(i, { minValue });
-                                    }}
+                                    onChange={(minValue) => handleOptionChange(i, { minValue })}
                                     min={0}
                                     label={t(i18n)`Value`}
+                                    disabled={disabled}
                                 />
                             </Grid>
                         </Grid>
@@ -155,17 +148,13 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                         <Grid item xs={6}>
                             <NumberInput
                                 value={count}
-                                onChange={(count) => {
-                                    onChange({ ...value, count });
-                                }}
+                                onChange={(count) => onChange({ ...value, count })}
                                 min={range.min}
                                 max={range.max}
-                                disabled={range.min === undefined || range.max === undefined}
+                                disabled={disabled || range.min === undefined || range.max === undefined}
                                 label={t(i18n)`Minimum Affixes Required`}
                                 helperText={count >= 1 && range.count !== count
-                                    ? t(
-                                        i18n,
-                                    )`At least ${count} of the ${range.count} affixes will be present`
+                                    ? t(i18n)`At least ${count} of the ${range.count} affixes will be present`
                                     : undefined}
                             />
                         </Grid>
@@ -173,7 +162,7 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                             {range.count >= AFFIX_MIN_COUNT && (
                                 <Button
                                     onClick={handleAddAffixClick}
-                                    disabled={options.length >= AFFIX_MAX_COUNT}
+                                    disabled={disabled || options.length >= AFFIX_MAX_COUNT}
                                     sx={{ mt: '4px' }}
                                     fullWidth
                                 >
