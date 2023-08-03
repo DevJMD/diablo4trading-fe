@@ -26,17 +26,17 @@ export const SearchPage: React.FC = () => {
     const [selectedTags, setSelectedTags] = React.useState<number[]>([]);
 
     const handleTagSelection = (_, newTags: number[]) => {
-        setSelectedTags((tags) => newTags);
+        setSelectedTags(() => newTags);
     };
 
-    const tagsToNumber = React.useMemo(
-        () =>
-            selectedTags.reduce(
-                (previousValue: number, currentValue: number) => previousValue | currentValue,
-                0
-            ),
-        [selectedTags]
-    );
+    // const tagsToNumber = React.useMemo(
+    //     () =>
+    //         selectedTags.reduce(
+    //             (previousValue: number, currentValue: number) => previousValue | currentValue,
+    //             0
+    //         ),
+    //     [selectedTags]
+    // );
 
     const { i18n } = useLingui();
 

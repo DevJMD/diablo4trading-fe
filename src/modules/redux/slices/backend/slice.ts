@@ -1,5 +1,11 @@
 import { API_ENDPOINT } from '@config';
-import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+    BaseQueryFn,
+    FetchArgs,
+    FetchBaseQueryError,
+    createApi,
+    fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 import { API } from '@sanctuaryteam/shared';
 import { AuthSelectors } from '../auth/selectors';
 import { AuthSlice } from '../auth/slice';
@@ -14,13 +20,13 @@ const baseQuery = fetchBaseQuery({
             headers.set('Authorization', `Bearer ${token}`);
         }
         return headers;
-    }
+    },
 });
-const baseQueryWithAuth: BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+    args,
+    api,
+    extraOptions
+) => {
     const result = await baseQuery(args, api, extraOptions);
     if (result.error?.status === 401) {
         api.dispatch(AuthSlice.actions.logout());
@@ -40,14 +46,14 @@ export const BackendSlice = createApi({
                 params: { code },
             }),
         }),
-        tradeSearchCallback: builder.query<API.SearchResponse, API.SearchPayload>({
-            query: ({ query }) => ({
-                url: '/trade/search',
-                method: 'GET',
-                params: { ...query.id, ...query.affix },
-            }),
-        }),
+        // tradeSearchCallback: builder.query<API.SearchResponse, API.SearchPayload>({
+        //     query: ({ query }) => ({
+        //         url: '/trade/search',
+        //         method: 'GET',
+        //         params: { ...query.id, ...query.affix },
+        //     }),
+        // }),
     }),
 });
 
-export const { useAuthDiscordCallbackQuery, useLazyTradeSearchCallbackQuery } = BackendSlice;
+export const { useAuthDiscordCallbackQuery } = BackendSlice;
