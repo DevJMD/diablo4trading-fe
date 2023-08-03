@@ -9,7 +9,9 @@ interface AssetsProviderProps {
     children?: (loading: boolean) => React.ReactNode;
 }
 
-export const AssetsProvider: React.FC<AssetsProviderProps> = ({ children }) => {
+export const AssetsProvider: React.FC<AssetsProviderProps> = ({
+    children,
+}) => {
     const [routeLanguage] = useRouteLanguage();
 
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -82,5 +84,9 @@ export const AssetsProvider: React.FC<AssetsProviderProps> = ({ children }) => {
             });
     }, [loading]);
 
-    return <AssetsContext.Provider value={value}>{children(loading)}</AssetsContext.Provider>;
+    return (
+        <AssetsContext.Provider value={value}>
+            {children(loading)}
+        </AssetsContext.Provider>
+    );
 };

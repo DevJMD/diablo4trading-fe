@@ -19,14 +19,20 @@ interface ServerTypeInputProps {
     disabled?: boolean;
 }
 
-export const ServerTypeInput: React.FC<ServerTypeInputProps> = ({ value, onChange, disabled }) => {
+export const ServerTypeInput: React.FC<ServerTypeInputProps> = ({
+    value,
+    onChange,
+    disabled,
+}) => {
     const { i18n } = useLingui();
     const { language, translations } = useAssets();
 
-    const options = Object.values(Game.ServerType).map((type) => ({
-        id: type,
-        label: Game.getServerTypeText(type, language, translations),
-    }));
+    const options = Object
+        .values(Game.ServerType)
+        .map((type) => ({
+            id: type,
+            label: Game.getServerTypeText(type, language, translations),
+        }));
     let selected = value === undefined ? null : options.find((x) => x.id === value);
     if (selected === undefined) {
         options.push({
@@ -43,20 +49,15 @@ export const ServerTypeInput: React.FC<ServerTypeInputProps> = ({ value, onChang
             filterOptions={(options, { inputValue }) =>
                 inputValue.length >= 1
                     ? matchSorter(options, inputValue, {
-                          keys: ['label'],
-                      })
-                    : options
-            }
+                        keys: ['label'],
+                    })
+                    : options}
             onChange={(_, option) => onChange(option?.id)}
             renderOption={(props, option) => (
                 <li {...props}>
                     <ServerTypeIcon
                         src={GAME_SERVER_TYPE_ICONS[option.id]}
-                        alt={t(i18n)`${Game.getServerTypeText(
-                            option.id,
-                            language,
-                            translations
-                        )}'s icon`}
+                        alt={t(i18n)`${Game.getServerTypeText(option.id, language, translations)}'s icon`}
                     />
                     &nbsp;
                     {option.label}

@@ -42,10 +42,7 @@ export const DiscordAuthPage: React.FC = () => {
         return (
             <Common.FloatingPanel>
                 <Box sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h4'
-                        component='h1'
-                    >
+                    <Typography variant='h4' component='h1'>
                         {t(i18n)`Something went wrong.`}
                     </Typography>
                     <Typography variant='subtitle1'>

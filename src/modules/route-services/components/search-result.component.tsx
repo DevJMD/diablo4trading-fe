@@ -26,13 +26,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
     const [visible, setVisible] = React.useState<boolean>(false);
 
     return (
-        <Card
-            sx={{
-                p: 2,
-                mt: 2,
-                display: 'flex',
-            }}
-        >
+        <Card sx={{ p: 2, mt: 2, display: 'flex' }}>
             <Box flex='1'>
                 <Box
                     onClick={() => setVisible(!visible)}
@@ -43,10 +37,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                         alignItems: 'center',
                     }}
                 >
-                    <Typography
-                        variant='h6'
-                        fontWeight='bold'
-                    >
+                    <Typography variant='h6' fontWeight='bold'>
                         {title}
                     </Typography>
                     <Button
@@ -59,11 +50,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                     </Button>
                 </Box>
                 <Collapse in={visible}>
-                    <Typography
-                        variant='body1'
-                        sx={{ mt: 1 }}
-                        component='pre'
-                    >
+                    <Typography variant='body1' sx={{ mt: 1 }} component='pre'>
                         {content}
                     </Typography>
                 </Collapse>
@@ -84,16 +71,10 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                                     sx={{ mr: 1 }}
                                 />
                                 <Box>
-                                    <Typography
-                                        variant='subtitle1'
-                                        fontWeight='bold'
-                                    >
+                                    <Typography variant='subtitle1' fontWeight='bold'>
                                         {user}
                                     </Typography>
-                                    <Common.UserRating
-                                        rating={6}
-                                        score={456}
-                                    />
+                                    <Common.UserRating rating={6} score={456} />
                                 </Box>
                             </Box>
                         </Box>
@@ -123,10 +104,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                         </Button>
                     </Box>
                     <Box>
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'
-                        >
+                        <Typography variant='body2' color='textSecondary'>
                             {lastUpdated}
                         </Typography>
                     </Box>

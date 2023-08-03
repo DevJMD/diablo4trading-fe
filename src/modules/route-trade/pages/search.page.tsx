@@ -21,22 +21,19 @@ export const SearchPage: React.FC = () => {
                 [PARAM_PAYLOAD]: stringifySearchPayload(payload),
             });
         },
-        [setParams]
+        [setParams],
     );
 
     const handleSearch = React.useCallback(
         (payload: API.SearchPayload) => {
             setPayload(payload);
         },
-        [setPayload]
+        [setPayload],
     );
 
     return (
         <React.Fragment>
-            <SearchFilter
-                payload={payload}
-                onSearch={handleSearch}
-            />
+            <SearchFilter payload={payload} onSearch={handleSearch} />
         </React.Fragment>
     );
 };

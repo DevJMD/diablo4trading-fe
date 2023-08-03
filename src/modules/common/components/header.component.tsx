@@ -8,8 +8,8 @@ import {
     Container,
     Drawer,
     IconButton,
-    Tab as MuiTab,
     Stack,
+    Tab as MuiTab,
     Tabs,
     Toolbar,
     Typography,
@@ -72,10 +72,10 @@ export const Header: React.FC = () => {
                     path: p.pathname,
                     end: false,
                 },
-                matches[matches.length - 1].pathname
+                matches[matches.length - 1].pathname,
             );
             return match !== null;
-        })
+        }),
     );
 
     const handleTabClick = (index: number) => {
@@ -85,19 +85,10 @@ export const Header: React.FC = () => {
 
     return (
         <Box component='header'>
-            <AppBar
-                position='sticky'
-                component='nav'
-            >
+            <AppBar position='sticky' component='nav'>
                 <Container maxWidth='xl'>
-                    <Toolbar
-                        variant='dense'
-                        disableGutters
-                    >
-                        <Stack
-                            direction='row'
-                            gap={2}
-                        >
+                    <Toolbar variant='dense' disableGutters>
+                        <Stack direction='row' gap={2}>
                             <IconButton
                                 edge='start'
                                 onClick={handleDrawerToggle}
@@ -114,11 +105,7 @@ export const Header: React.FC = () => {
                                 }}
                             >
                                 <Logo />
-                                <Typography
-                                    variant='h6'
-                                    component='div'
-                                    ml={1}
-                                >
+                                <Typography variant='h6' component='div' ml={1}>
                                     {APP_NAME}
                                 </Typography>
                             </Box>
@@ -136,10 +123,7 @@ export const Header: React.FC = () => {
                             </Tabs>
                         </Stack>
                         <Box flexGrow={1} />
-                        <Stack
-                            direction='row'
-                            gap={1}
-                        >
+                        <Stack direction='row' gap={1}>
                             <HeaderUser />
                             <HeaderLanguage />
                         </Stack>
@@ -168,18 +152,11 @@ export const Header: React.FC = () => {
                         }}
                     >
                         <Logo />
-                        <Typography
-                            variant='h6'
-                            component='div'
-                            ml={1}
-                        >
+                        <Typography variant='h6' component='div' ml={1}>
                             {APP_NAME}
                         </Typography>
                     </Box>
-                    <Tabs
-                        value={tabValue}
-                        orientation='vertical'
-                    >
+                    <Tabs value={tabValue} orientation='vertical'>
                         {items.map((p, i) => (
                             <Tab
                                 key={p.pathname}

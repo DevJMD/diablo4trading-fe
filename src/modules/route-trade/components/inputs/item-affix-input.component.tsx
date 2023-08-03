@@ -4,10 +4,10 @@ import { useLingui } from '@lingui/react';
 import { Common } from '@modules/common';
 import {
     Autocomplete,
+    autocompleteClasses,
     Popper,
     TextField,
     Typography,
-    autocompleteClasses,
     useMediaQuery,
     useTheme,
 } from '@mui/material';
@@ -21,7 +21,7 @@ const LISTBOX_PADDING = 8; // px
 function renderRow(
     props: ListChildComponentProps<
         [React.HTMLAttributes<HTMLLIElement>, { id: string; label: string }][]
-    >
+    >,
 ) {
     const { data, index, style } = props;
     const [componentProps, option] = data[index];
@@ -74,7 +74,7 @@ const ListboxComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
             (item: React.ReactElement & { children?: React.ReactElement[] }) => {
                 itemData.push(item);
                 itemData.push(...(item.children || []));
-            }
+            },
         );
 
         const theme = useTheme();
@@ -116,7 +116,7 @@ const ListboxComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
                 </OuterElementContext.Provider>
             </div>
         );
-    }
+    },
 );
 
 const StyledPopper = styled(Popper)({
@@ -150,10 +150,20 @@ export const ItemAffixInput: React.FC<ItemAffixInputProps> = ({
     const { language, affixes } = Common.useAssets();
 
     const { options, selected } = React.useMemo(() => {
-        const options = Object.keys(affixes.definitions[type]).map((id) => ({
-            id,
-            label: Game.getItemAffixText(id, language, type, -1, -1, affixes, placeholder),
-        }));
+        const options = Object
+            .keys(affixes.definitions[type])
+            .map((id) => ({
+                id,
+                label: Game.getItemAffixText(
+                    id,
+                    language,
+                    type,
+                    -1,
+                    -1,
+                    affixes,
+                    placeholder,
+                ),
+            }));
         let selected = value === undefined ? null : options.find((o) => o.id === value);
         if (selected === undefined) {
             options.push({
@@ -175,17 +185,11 @@ export const ItemAffixInput: React.FC<ItemAffixInputProps> = ({
             filterOptions={(options, { inputValue }) =>
                 inputValue.length >= 1
                     ? matchSorter(options, inputValue, {
-                          keys: ['label'],
-                      })
-                    : options
-            }
+                        keys: ['label'],
+                    })
+                    : options}
             onChange={(_, option) => onChange(option?.id)}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label={label}
-                />
-            )}
+            renderInput={(params) => <TextField {...params} label={label} />}
             renderOption={(props, option, state) => [props, option, state.index] as React.ReactNode}
             fullWidth
             disabled={disabled}

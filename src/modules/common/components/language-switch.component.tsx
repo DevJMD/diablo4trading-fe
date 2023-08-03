@@ -39,7 +39,9 @@ interface LanguageSwitchProps {
     children: React.ReactNode;
 }
 
-export const LanguageSwitch: React.FC<LanguageSwitchProps> = ({ children }) => {
+export const LanguageSwitch: React.FC<LanguageSwitchProps> = ({
+    children,
+}) => {
     const language = useSelector(Redux.UserSelectors.getLanguage);
     const [active, setActive] = React.useState<Redux.UserLanguage>();
 

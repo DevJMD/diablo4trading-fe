@@ -14,7 +14,9 @@ interface SpinnerProps {
     size?: number;
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({ size = 16 }) => {
+export const Spinner: React.FC<SpinnerProps> = ({
+    size = 16,
+}) => {
     return (
         <Circle
             src={GAME_SPINNER_ICON}

@@ -50,14 +50,8 @@ docker compose up
 docker-compose run web-app yarn add my-package --dev
 ```
 
-## Running prettier
+## Running dprint
 
 ```bash
 yarn run format
-```
-
-or to save changes
-
-```bash
-yarn run format --write
 ```

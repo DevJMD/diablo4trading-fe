@@ -25,18 +25,10 @@ export const Footer: React.FC = () => {
 
     return (
         <Root>
-            <Typography
-                variant='body2'
-                fontFamily='monospace'
-            >
-                {t(
-                    i18n
-                )`This app isn't affiliated with or endorsed by Activision Blizzard in any way.`}
+            <Typography variant='body2' fontFamily='monospace'>
+                {t(i18n)`This app isn't affiliated with or endorsed by Activision Blizzard in any way.`}
             </Typography>
-            <Typography
-                variant='body2'
-                fontFamily='monospace'
-            >
+            <Typography variant='body2' fontFamily='monospace'>
                 {t(i18n)`© ${APP_NAME} ${year}. All rights reserved.`}
             </Typography>
             <Stack
@@ -45,16 +37,10 @@ export const Footer: React.FC = () => {
                 justifyContent='center'
                 spacing={1}
             >
-                <Link
-                    target='_blank'
-                    href='https://www.reddit.com/r/Diablo4'
-                >
+                <Link target='_blank' href='https://www.reddit.com/r/Diablo4'>
                     <RedditIcon />
                 </Link>
-                <Link
-                    target='_blank'
-                    href='https://discord.gg/Diablo4'
-                >
+                <Link target='_blank' href='https://discord.gg/Diablo4'>
                     <SvgIcon component={DiscordIcon} />
                 </Link>
             </Stack>

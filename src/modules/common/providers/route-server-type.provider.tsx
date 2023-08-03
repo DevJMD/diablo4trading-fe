@@ -13,7 +13,7 @@ const ROUTE_MAPPING: Record<Game.ServerType, string> = {
 };
 
 const ROUTE_MAPPING_REVERSE: Record<string, Game.ServerType> = Object.fromEntries(
-    Object.entries(ROUTE_MAPPING).map(([key, value]) => [value, key as Game.ServerType])
+    Object.entries(ROUTE_MAPPING).map(([key, value]) => [value, key as Game.ServerType]),
 );
 
 interface RouteServerTypeProviderParams {
@@ -24,7 +24,9 @@ interface RouteServerTypeProviderProps {
     children: React.ReactNode;
 }
 
-export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = ({ children }) => {
+export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = ({
+    children,
+}) => {
     const store = useStore();
     const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = (
             const pathname = ROUTE_MAPPING[serverType];
             navigate(`./../${pathname}`);
         },
-        [navigate, store]
+        [navigate, store],
     );
 
     const routeIncludesServerType = !!routeServerType;
@@ -58,7 +60,10 @@ export const RouteServerTypeProvider: React.FC<RouteServerTypeProviderProps> = (
     if (!routeIncludesServerType) {
         return null;
     }
+
     return (
-        <RouteServerTypeContext.Provider value={value}>{children}</RouteServerTypeContext.Provider>
+        <RouteServerTypeContext.Provider value={value}>
+            {children}
+        </RouteServerTypeContext.Provider>
     );
 };

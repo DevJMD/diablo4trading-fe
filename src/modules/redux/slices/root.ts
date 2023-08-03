@@ -1,4 +1,4 @@
-import { AnyAction, Store, combineReducers } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, Store } from '@reduxjs/toolkit';
 /* always needs to use the /slice export, otherwise we get circluar dependencies */
 import { AUTH_STATE_INITIAL, AuthSlice } from './auth/slice';
 import { BackendSlice } from './backend/slice';

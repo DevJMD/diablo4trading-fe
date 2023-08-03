@@ -8,10 +8,7 @@ export const NotFoundPage: React.FC = () => {
     return (
         <Common.FloatingPanel>
             <Box sx={{ textAlign: 'center' }}>
-                <Typography
-                    variant='h4'
-                    component='h1'
-                >
+                <Typography variant='h4' component='h1'>
                     {t(i18n)`Not Found`}
                 </Typography>
                 <Typography variant='subtitle1'>

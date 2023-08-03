@@ -107,23 +107,10 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                 };
                 const placeholder = isNaN(option.minValue) ? '#' : `${option.minValue}`;
                 return (
-                    <Grid
-                        item
-                        xs={12}
-                        key={i}
-                    >
-                        <Grid
-                            container
-                            spacing={0.5}
-                        >
-                            <Grid
-                                item
-                                xs={9}
-                            >
-                                <Stack
-                                    direction='row'
-                                    alignItems='center'
-                                >
+                    <Grid key={i} item xs={12}>
+                        <Grid container spacing={0.5}>
+                            <Grid item xs={9}>
+                                <Stack direction='row' alignItems='center'>
                                     {options.length > AFFIX_MIN_COUNT && (
                                         <IconButton
                                             onClick={() => {
@@ -144,10 +131,7 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                                     />
                                 </Stack>
                             </Grid>
-                            <Grid
-                                item
-                                xs={3}
-                            >
+                            <Grid item xs={3}>
                                 <NumberInput
                                     value={option.minValue}
                                     onChange={(minValue) => {
@@ -162,29 +146,13 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                 );
             })}
             {range.count >= 2 && (
-                <Grid
-                    item
-                    xs={12}
-                >
-                    <Grid
-                        item
-                        container
-                        spacing={1}
-                    >
-                        <Grid
-                            item
-                            xs={9}
-                        >
+                <Grid item xs={12}>
+                    <Grid item container spacing={1}>
+                        <Grid item xs={9}>
                             <Divider />
                         </Grid>
-                        <Grid
-                            item
-                            xs={3}
-                        />
-                        <Grid
-                            item
-                            xs={6}
-                        >
+                        <Grid item xs={3} />
+                        <Grid item xs={6}>
                             <NumberInput
                                 value={count}
                                 onChange={(count) => {
@@ -194,19 +162,14 @@ export const SearchFilterAffix: React.FC<SearchFilterAffixProp> = ({
                                 max={range.max}
                                 disabled={range.min === undefined || range.max === undefined}
                                 label={t(i18n)`Minimum Affixes Required`}
-                                helperText={
-                                    count >= 1 && range.count !== count
-                                        ? t(
-                                              i18n
-                                          )`At least ${count} of the ${range.count} affixes will be present`
-                                        : undefined
-                                }
+                                helperText={count >= 1 && range.count !== count
+                                    ? t(
+                                        i18n,
+                                    )`At least ${count} of the ${range.count} affixes will be present`
+                                    : undefined}
                             />
                         </Grid>
-                        <Grid
-                            item
-                            xs={3}
-                        >
+                        <Grid item xs={3}>
                             {range.count >= AFFIX_MIN_COUNT && (
                                 <Button
                                     onClick={handleAddAffixClick}

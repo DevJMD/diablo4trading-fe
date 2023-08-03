@@ -48,20 +48,15 @@ export const CharacterClassInput: React.FC<CharacterClassInputProps> = ({
             filterOptions={(options, { inputValue }) =>
                 inputValue.length >= 1
                     ? matchSorter(options, inputValue, {
-                          keys: ['label'],
-                      })
-                    : options
-            }
+                        keys: ['label'],
+                    })
+                    : options}
             onChange={(_, option) => onChange(option?.id)}
             renderOption={(props, option) => (
                 <li {...props}>
                     <ClassIcon
                         src={Common.GAME_CLASS_ICONS[option.id]}
-                        alt={t(i18n)`${Game.getCharacterClassText(
-                            option.id,
-                            language,
-                            translations
-                        )}'s icon`}
+                        alt={t(i18n)`${Game.getCharacterClassText(option.id, language, translations)}'s icon`}
                     />
                     &nbsp;
                     {option.label}
@@ -73,16 +68,14 @@ export const CharacterClassInput: React.FC<CharacterClassInputProps> = ({
                     label={label}
                     InputProps={{
                         ...params.InputProps,
-                        startAdornment: Common.GAME_CLASS_ICONS[value] ? (
-                            <ClassIcon
-                                src={Common.GAME_CLASS_ICONS[value]}
-                                alt={t(i18n)`${Game.getCharacterClassText(
-                                    value,
-                                    language,
-                                    translations
-                                )}'s icon`}
-                            />
-                        ) : undefined,
+                        startAdornment: Common.GAME_CLASS_ICONS[value]
+                            ? (
+                                <ClassIcon
+                                    src={Common.GAME_CLASS_ICONS[value]}
+                                    alt={t(i18n)`${Game.getCharacterClassText(value, language, translations)}'s icon`}
+                                />
+                            )
+                            : undefined,
                     }}
                 />
             )}

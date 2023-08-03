@@ -4,7 +4,9 @@ interface FloatingPanelProps {
     children?: React.ReactNode;
 }
 
-export const FloatingPanel: React.FC<FloatingPanelProps> = ({ children }) => {
+export const FloatingPanel: React.FC<FloatingPanelProps> = ({
+    children,
+}) => {
     return (
         <Box
             sx={{

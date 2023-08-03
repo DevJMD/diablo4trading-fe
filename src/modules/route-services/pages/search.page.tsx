@@ -1,14 +1,6 @@
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import {
-    Box,
-    Card,
-    Divider,
-    Grid,
-    ToggleButton,
-    ToggleButtonGroup,
-    Typography,
-} from '@mui/material';
+import { Box, Card, Divider, Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import React from 'react';
 import { SearchResult } from '../components';
 
@@ -44,44 +36,23 @@ export const SearchPage: React.FC = () => {
         <React.Fragment>
             <Card sx={{ p: 2, pt: 0 }}>
                 <Box pt={2}>
-                    <Grid
-                        container
-                        spacing={1}
-                    >
-                        <Grid
-                            item
-                            xs={12}
-                        >
-                            <Typography
-                                variant='subtitle2'
-                                color='text.secondary'
-                            >
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                            <Typography variant='subtitle2' color='text.secondary'>
                                 {t(i18n)`Services`}
                             </Typography>
                             <Divider />
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            lg={6}
-                        >
+                        <Grid item xs={12} lg={6}>
                             <ToggleButtonGroup
                                 value={selectedTags}
                                 onChange={handleTagSelection}
                                 aria-label={t(i18n)`Service Types`}
                             >
-                                <ToggleButton value={TAGS.POWERLEVELING}>
-                                    {t(i18n)`Powerleveling`}
-                                </ToggleButton>
-                                <ToggleButton value={TAGS.BOSS_HELP}>
-                                    {t(i18n)`Boss Help`}
-                                </ToggleButton>
-                                <ToggleButton value={TAGS.UBER_LILITH}>
-                                    {t(i18n)`Uber Lilith`}
-                                </ToggleButton>
-                                <ToggleButton value={TAGS.CAPSTONE_BOOST}>
-                                    {t(i18n)`Capstone Boost`}
-                                </ToggleButton>
+                                <ToggleButton value={TAGS.POWERLEVELING}>{t(i18n)`Powerleveling`}</ToggleButton>
+                                <ToggleButton value={TAGS.BOSS_HELP}>{t(i18n)`Boss Help`}</ToggleButton>
+                                <ToggleButton value={TAGS.UBER_LILITH}>{t(i18n)`Uber Lilith`}</ToggleButton>
+                                <ToggleButton value={TAGS.CAPSTONE_BOOST}>{t(i18n)`Capstone Boost`}</ToggleButton>
                                 <ToggleButton value={TAGS.EUROPE}>{t(i18n)`Europe`}</ToggleButton>
                                 <ToggleButton value={TAGS.ASIA}>{t(i18n)`Asia`}</ToggleButton>
                                 <ToggleButton value={TAGS.AMERICA}>{t(i18n)`America`}</ToggleButton>

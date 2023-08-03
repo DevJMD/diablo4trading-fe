@@ -1,11 +1,5 @@
 import { API_ENDPOINT } from '@config';
-import {
-    BaseQueryFn,
-    FetchArgs,
-    FetchBaseQueryError,
-    createApi,
-    fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { API } from '@sanctuaryteam/shared';
 import { AuthSelectors } from '../auth/selectors';
 import { AuthSlice } from '../auth/slice';
@@ -25,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
     args,
     api,
-    extraOptions
+    extraOptions,
 ) => {
     const result = await baseQuery(args, api, extraOptions);
     if (result.error?.status === 401) {

@@ -30,10 +30,12 @@ const TABLE: Record<KEY, string> = {
 };
 
 const REVERSE_TABLE: Record<string, KEY> = Object.fromEntries(
-    Object.entries(TABLE).map(([k, v]) => [v, k as KEY])
+    Object.entries(TABLE).map(([k, v]) => [v, k as KEY]),
 );
 
-export function parseSearchPayload(stringified: string): API.SearchPayload {
+export function parseSearchPayload(
+    stringified: string,
+): API.SearchPayload {
     if (!stringified?.length) {
         return {};
     }
@@ -61,7 +63,9 @@ export function parseSearchPayload(stringified: string): API.SearchPayload {
     }
 }
 
-export function stringifySearchPayload(payload: API.SearchPayload): string {
+export function stringifySearchPayload(
+    payload: API.SearchPayload,
+): string {
     const minified = JSON.stringify(payload, (_, value: unknown) => {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
             const replacement: Record<string, unknown> = {};
