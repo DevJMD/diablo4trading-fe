@@ -40,26 +40,12 @@ export const BackendSlice = createApi({
                 params: { code },
             }),
         }),
-
         // trade
-        tradeGetSearch: builder.query<API.TradeSearchGetResponse, API.TradeSearchGetParams>({
-            query: ({ searchId }) => ({
-                url: `/trade/search/${searchId}`,
-                method: 'GET',
-            }),
-        }),
-        tradeCreateSearch: builder.mutation<API.TradeSearchCreateResponse, API.TradeSearchCreateBody>({
-            query: (body) => ({
+        tradeSearch: builder.query<API.TradeGetSearchResponse, API.TradeGetSearchQuery>({
+            query: params => ({
                 url: '/trade/search',
-                method: 'POST',
-                body,
-            }),
-        }),
-        tradeFetch: builder.query<API.TradeFetchGetResponse, API.TradeFetchGetQuery>({
-            query: ({ serverType, searchId, timestamp, page }) => ({
-                url: '/trade/fetch',
                 method: 'GET',
-                params: { serverType, searchId, timestamp, page },
+                params,
             }),
         }),
     }),
@@ -68,11 +54,6 @@ export const BackendSlice = createApi({
 export const {
     // auth
     useAuthDiscordCallbackQuery,
-
     // trade
-    useTradeGetSearchQuery,
-    useLazyTradeGetSearchQuery,
-    useTradeCreateSearchMutation,
-    useTradeFetchQuery,
-    useLazyTradeFetchQuery,
+    useLazyTradeSearchQuery,
 } = BackendSlice;

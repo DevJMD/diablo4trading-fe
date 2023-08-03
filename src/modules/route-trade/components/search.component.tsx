@@ -8,42 +8,45 @@ import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { AutoSizer, InfiniteLoader, List, WindowScroller } from 'react-virtualized';
 import 'react-virtualized/styles.css';
+import { SearchResult } from './search-result.component';
 
 const PAGE_SIZE = 10;
 
 function createCacheKey(
     serverType: Game.ServerType,
-    searchId: string,
+    payload: string,
     timestamp: number,
 ): string {
-    return `${serverType}-${searchId}-${timestamp}`;
+    return `${serverType}-${payload}-${timestamp}`;
 }
 
 interface SearchResultsProps {
-    searchId: string;
+    serializedPayload: string;
     timestamp: number;
+    onTimestampChange: (timestamp: number) => void;
 }
 
-export const SearchResults: React.FC<SearchResultsProps> = ({
-    searchId,
+export const Search: React.FC<SearchResultsProps> = ({
+    serializedPayload: payload,
     timestamp,
+    onTimestampChange,
 }) => {
     const { i18n } = useLingui();
 
     const [serverType] = Common.useRouteServerType();
 
-    const [cache, setCache] = React.useState<Record<string, API.TradeFetchGetResponse>>({});
-    const [fetch, query] = Redux.useLazyTradeFetchQuery();
+    const [cache, setCache] = React.useState<Record<string, API.TradeGetSearchResponse>>({});
+    const [fetch, query] = Redux.useLazyTradeSearchQuery();
 
     const next = React.useCallback(async (
         serverType: Game.ServerType,
-        searchId: string,
+        payload: string,
         page: number,
         timestamp: number,
     ) => {
-        const result = await fetch({ serverType, searchId, page, timestamp });
+        const result = await fetch({ serverType, payload, page, pageSize: PAGE_SIZE, timestamp });
         if (result.isSuccess) {
-            const cacheKey = createCacheKey(serverType, searchId, timestamp);
+            const cacheKey = createCacheKey(serverType, payload, result.data.timestamp);
             setCache((cache) => {
                 const prev = cache[cacheKey]?.results || [];
                 const set = new Set(prev.map((x) => x.listing.id));
@@ -53,31 +56,39 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                     [cacheKey]: {
                         results: [...prev, ...next],
                         hasMore: result.data.hasMore,
+                        timestamp: result.data.timestamp,
                     },
                 };
             });
+            return result;
         }
+        throw new Error('Unable to fetch search results');
     }, [fetch]);
 
     const loader = React.useRef<InfiniteLoader>();
     React.useLayoutEffect(() => {
-        next(serverType, searchId, 1, timestamp)
-            .then(() => {
+        if (!isNaN(timestamp)) {
+            return;
+        }
+        next(serverType, payload, 1, undefined)
+            .then(result => {
                 loader.current?.resetLoadMoreRowsCache(true);
+                onTimestampChange(result.data.timestamp);
             })
             .catch((error) => {
                 console.warn('Unable to fetch search results', error);
             });
-    }, [next, searchId, serverType, timestamp]);
+    }, [next, payload, serverType, timestamp, onTimestampChange]);
 
-    const key = createCacheKey(serverType, searchId, timestamp);
+    const key = createCacheKey(serverType, payload, timestamp);
     const { results, hasMore } = cache[key] ?? { results: [], hasMore: true };
     const page = Math.floor(results.length / PAGE_SIZE);
     const rowCount = results.length;
 
     const handleNextPage = React.useCallback(async () => {
-        await next(serverType, searchId, page + 1, timestamp);
-    }, [next, page, searchId, serverType, timestamp]);
+        if (page === 0) return;
+        await next(serverType, payload, page + 1, timestamp);
+    }, [next, page, payload, serverType, timestamp]);
 
     return (
         <>
@@ -86,6 +97,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 isRowLoaded={({ index }) => index < rowCount}
                 loadMoreRows={handleNextPage}
                 rowCount={hasMore ? rowCount + 1 : rowCount}
+                threshold={2}
             >
                 {({ onRowsRendered, registerChild }) => (
                     <AutoSizer disableHeight>
@@ -99,15 +111,24 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                                         onScroll={onChildScroll}
                                         ref={registerChild}
                                         onRowsRendered={onRowsRendered}
-                                        rowRenderer={({ index, key, style }) => (
-                                            <div key={key} style={style}>
-                                                <pre>
-                                                    {JSON.stringify(results[index].item, undefined, 2)}
-                                                </pre>
-                                            </div>
-                                        )}
+                                        rowRenderer={({ index, key, style }) => {
+                                            const result = results[index];
+                                            return (
+                                                <div key={key} style={style}>
+                                                    {result
+                                                        ? (
+                                                            <SearchResult
+                                                                item={result.item}
+                                                                listing={result.listing}
+                                                            />
+                                                        )
+                                                        : undefined}
+                                                </div>
+                                            );
+                                        }}
                                         rowCount={rowCount}
-                                        rowHeight={888}
+                                        overscanRowCount={0}
+                                        rowHeight={1056}
                                         width={width}
                                     />
                                 )}

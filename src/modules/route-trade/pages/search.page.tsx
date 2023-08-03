@@ -1,52 +1,39 @@
-import { Redux } from '@modules/redux';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SearchFilter, SearchResults } from '../components';
+import { Search, SearchFilter } from '../components';
 
-const PARAM_SEARCH_ID = 's';
+const PARAM_PAYLOAD = 'p';
 
 export const SearchPage: React.FC = () => {
     const [params, setParams] = useSearchParams();
 
-    const searchId = params.get(PARAM_SEARCH_ID);
+    const serializedPayload = params.get(PARAM_PAYLOAD);
+    const payload = React.useMemo(() => {
+        return API.deserializeTradeSearchPayload(serializedPayload);
+    }, [serializedPayload]);
 
-    const [createSearch, createSearchResult] = Redux.useTradeCreateSearchMutation();
-    const createdSearchId = createSearchResult.data?.searchId;
+    const [timestamp, setTimestamp] = React.useState<number>(undefined);
 
-    const search = Redux.useTradeGetSearchQuery({ searchId }, {
-        skip: !searchId || createdSearchId === searchId,
-    });
-
-    React.useEffect(() => {
-        if (search.isError) {
-            setParams({});
-        }
-    }, [search, setParams]);
-
-    React.useEffect(() => {
-        if (createSearchResult.isError) {
-            setParams({});
-        } else if (createSearchResult.isSuccess) {
-            setParams({ [PARAM_SEARCH_ID]: createSearchResult.data.searchId });
-        }
-    }, [createSearchResult, setParams]);
-
-    const handleSearch = (search: API.TradeSearch) => {
-        void createSearch(search);
+    const handleSearch = (payload: API.TradeSearchPayload) => {
+        // Reset timestamp to force re-render
+        setTimestamp(undefined);
+        setParams({
+            [PARAM_PAYLOAD]: API.serializeTradeSearchPayload(payload),
+        });
     };
 
     return (
         <React.Fragment>
             <SearchFilter
-                search={search.data}
+                payload={payload}
                 onSearch={handleSearch}
-                disabled={search.isFetching || createSearchResult.isLoading}
             />
-            {searchId?.length > 0 && (
-                <SearchResults
-                    searchId={searchId}
-                    timestamp={1}
+            {serializedPayload?.length > 0 && (
+                <Search
+                    serializedPayload={serializedPayload}
+                    timestamp={timestamp}
+                    onTimestampChange={setTimestamp}
                 />
             )}
         </React.Fragment>
