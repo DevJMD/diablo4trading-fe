@@ -15,16 +15,7 @@ export const Element: React.FC = () => {
                     </React.Fragment>
                 }
             >
-                <Route
-                    path='*'
-                    index
-                    element={
-                        <Navigate
-                            to='search'
-                            replace
-                        />
-                    }
-                />
+                <Route path='*' index element={<Navigate to='search' replace />} />
                 <Route
                     path='search/:serverType?'
                     element={
@@ -33,10 +24,7 @@ export const Element: React.FC = () => {
                         </Common.RouteServerTypeProvider>
                     }
                 />
-                <Route
-                    path='listings'
-                    element={<ListingsPage />}
-                />
+                <Route path='listings' element={<ListingsPage />} />
             </Route>
         </Routes>
     );

@@ -28,10 +28,12 @@ export const ItemSocketTypeInput: React.FC<ItemSocketTypeInputProps> = ({
     const { i18n } = useLingui();
     const { language, translations } = Common.useAssets();
 
-    const options = Object.values(Game.ItemSocketType).map((type) => ({
-        id: type,
-        label: Game.getItemSocketTypeText(type, language, translations),
-    }));
+    const options = Object
+        .values(Game.ItemSocketType)
+        .map((type) => ({
+            id: type,
+            label: Game.getItemSocketTypeText(type, language, translations),
+        }));
     let selected = value === undefined ? null : options.find((x) => x.id === value);
     if (selected === undefined) {
         options.push({
@@ -48,20 +50,15 @@ export const ItemSocketTypeInput: React.FC<ItemSocketTypeInputProps> = ({
             filterOptions={(options, { inputValue }) =>
                 inputValue.length >= 1
                     ? matchSorter(options, inputValue, {
-                          keys: ['label'],
-                      })
-                    : options
-            }
+                        keys: ['label'],
+                    })
+                    : options}
             onChange={(_, option) => onChange(option?.id)}
             renderOption={(props, option) => (
                 <li {...props}>
                     <ItemSocketTypeIcon
                         src={Common.GAME_ITEM_SOCKET_TYPE_ICONS[option.id]}
-                        alt={t(i18n)`${Game.getItemSocketTypeText(
-                            option.id,
-                            language,
-                            translations
-                        )}'s icon`}
+                        alt={t(i18n)`${Game.getItemSocketTypeText(option.id, language, translations)}'s icon`}
                     />
                     &nbsp;
                     {option.label}
@@ -73,16 +70,14 @@ export const ItemSocketTypeInput: React.FC<ItemSocketTypeInputProps> = ({
                     label={label}
                     InputProps={{
                         ...params.InputProps,
-                        startAdornment: Common.GAME_ITEM_SOCKET_TYPE_ICONS[value] ? (
-                            <ItemSocketTypeIcon
-                                src={Common.GAME_ITEM_SOCKET_TYPE_ICONS[value]}
-                                alt={t(i18n)`${Game.getItemSocketTypeText(
-                                    value,
-                                    language,
-                                    translations
-                                )}'s icon`}
-                            />
-                        ) : undefined,
+                        startAdornment: Common.GAME_ITEM_SOCKET_TYPE_ICONS[value]
+                            ? (
+                                <ItemSocketTypeIcon
+                                    src={Common.GAME_ITEM_SOCKET_TYPE_ICONS[value]}
+                                    alt={t(i18n)`${Game.getItemSocketTypeText(value, language, translations)}'s icon`}
+                                />
+                            )
+                            : undefined,
                     }}
                 />
             )}

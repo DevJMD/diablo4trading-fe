@@ -9,7 +9,10 @@ interface UserRatingProps {
 }
 
 // there is also https://mui.com/material-ui/react-rating/
-export const UserRating: React.FC<UserRatingProps> = ({ rating, score }) => {
+export const UserRating: React.FC<UserRatingProps> = ({
+    rating,
+    score,
+}) => {
     const fullStars = Math.floor(rating / 2);
     const hasHalfStar = rating % 2 !== 0;
     const emptyStars = Math.max(0, 5 - Math.ceil(rating / 2));
@@ -17,24 +20,11 @@ export const UserRating: React.FC<UserRatingProps> = ({ rating, score }) => {
     return (
         <Box sx={{ display: 'flex' }}>
             {Array.from({ length: fullStars }).map((_, index) => (
-                <StarIcon
-                    fontSize='small'
-                    color='secondary'
-                    key={index}
-                />
+                <StarIcon fontSize='small' color='secondary' key={index} />
             ))}
-            {hasHalfStar && (
-                <StarHalfIcon
-                    fontSize='small'
-                    color='secondary'
-                />
-            )}
+            {hasHalfStar && <StarHalfIcon fontSize='small' color='secondary' />}
             {Array.from({ length: emptyStars }).map((_, index) => (
-                <StarOutlineIcon
-                    fontSize='small'
-                    color='secondary'
-                    key={index}
-                />
+                <StarOutlineIcon fontSize='small' color='secondary' key={index} />
             ))}
             <Typography>({score})</Typography>
         </Box>

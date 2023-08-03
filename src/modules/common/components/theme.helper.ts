@@ -5,7 +5,9 @@ interface AppThemeOptions {
     disableAnimations?: boolean;
 }
 
-export function createAppTheme(options: AppThemeOptions = {}): Theme {
+export function createAppTheme(
+    options: AppThemeOptions = {},
+): Theme {
     return createTheme({
         typography: {
             fontFamily: 'Alegreya Sans, sans-serif',

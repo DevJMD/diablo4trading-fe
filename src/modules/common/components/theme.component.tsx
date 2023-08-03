@@ -9,8 +9,11 @@ interface ThemeProps {
     children?: React.ReactNode;
 }
 
-export const Theme: React.FC<ThemeProps> = ({ children }) => {
+export const Theme: React.FC<ThemeProps> = ({
+    children,
+}) => {
     const theme = useMemo(() => {
+        // TODO: option from user
         return createAppTheme({
             disableAnimations: false,
         });

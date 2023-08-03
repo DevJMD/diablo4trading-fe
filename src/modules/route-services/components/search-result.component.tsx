@@ -16,18 +16,17 @@ interface SearchResultProps {
     content: string;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, content }) => {
+export const SearchResult: React.FC<SearchResultProps> = ({
+    user,
+    lastUpdated,
+    title,
+    content,
+}) => {
     const { i18n } = useLingui();
     const [visible, setVisible] = React.useState<boolean>(false);
 
     return (
-        <Card
-            sx={{
-                p: 2,
-                mt: 2,
-                display: 'flex',
-            }}
-        >
+        <Card sx={{ p: 2, mt: 2, display: 'flex' }}>
             <Box flex='1'>
                 <Box
                     onClick={() => setVisible(!visible)}
@@ -38,10 +37,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
                         alignItems: 'center',
                     }}
                 >
-                    <Typography
-                        variant='h6'
-                        fontWeight='bold'
-                    >
+                    <Typography variant='h6' fontWeight='bold'>
                         {title}
                     </Typography>
                     <Button
@@ -54,11 +50,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
                     </Button>
                 </Box>
                 <Collapse in={visible}>
-                    <Typography
-                        variant='body1'
-                        sx={{ mt: 1 }}
-                        component='pre'
-                    >
+                    <Typography variant='body1' sx={{ mt: 1 }} component='pre'>
                         {content}
                     </Typography>
                 </Collapse>
@@ -79,16 +71,10 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
                                     sx={{ mr: 1 }}
                                 />
                                 <Box>
-                                    <Typography
-                                        variant='subtitle1'
-                                        fontWeight='bold'
-                                    >
+                                    <Typography variant='subtitle1' fontWeight='bold'>
                                         {user}
                                     </Typography>
-                                    <Common.UserRating
-                                        rating={6}
-                                        score={456}
-                                    />
+                                    <Common.UserRating rating={6} score={456} />
                                 </Box>
                             </Box>
                         </Box>
@@ -118,10 +104,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
                         </Button>
                     </Box>
                     <Box>
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'
-                        >
+                        <Typography variant='body2' color='textSecondary'>
                             {lastUpdated}
                         </Typography>
                     </Box>
@@ -130,5 +113,3 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
         </Card>
     );
 };
-
-export default SearchResult;

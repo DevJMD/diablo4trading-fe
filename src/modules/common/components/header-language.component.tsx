@@ -38,14 +38,12 @@ export const HeaderLanguage: React.FC = () => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                sx={[
-                    {
-                        '& .MuiList-root': {
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                        },
+                sx={[{
+                    '& .MuiList-root': {
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
                     },
-                ]}
+                }]}
             >
                 {Object.values(Redux.UserLanguage).map((language) => (
                     <MenuItem

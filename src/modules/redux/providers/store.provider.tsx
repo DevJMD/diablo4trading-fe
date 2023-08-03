@@ -3,14 +3,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BackendSlice } from '../slices/backend/slice';
 import { ROOT_STATE_INITIAL, rootReducer } from '../slices/root';
-import { UserLanguage, retrieveLanguageFromNavigator } from '../slices/user';
+import { retrieveLanguageFromNavigator, UserLanguage } from '../slices/user';
 import { STORAGE } from '../utils';
 
 interface StoreProviderProps {
     children: React.ReactNode;
 }
 
-export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
+export const StoreProvider: React.FC<StoreProviderProps> = ({
+    children,
+}) => {
     const store = React.useMemo(() => {
         const preloadedState = {
             ...ROOT_STATE_INITIAL,
@@ -29,8 +31,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
 
         const store = configureStore({
             reducer: rootReducer,
-            middleware: (getDefaultMiddleware) =>
-                getDefaultMiddleware().concat(BackendSlice.middleware),
+            middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(BackendSlice.middleware),
             preloadedState,
         });
         let next = { ...store.getState() };
@@ -45,5 +46,10 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
         });
         return store;
     }, []);
-    return <Provider store={store}>{children}</Provider>;
+
+    return (
+        <Provider store={store}>
+            {children}
+        </Provider>
+    );
 };

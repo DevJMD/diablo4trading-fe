@@ -21,7 +21,7 @@ const ROUTE_MAPPING: Record<Redux.UserLanguage, string> = {
 };
 
 const ROUTE_MAPPING_REVERSE: Record<string, Redux.UserLanguage> = Object.fromEntries(
-    Object.entries(ROUTE_MAPPING).map(([key, value]) => [value, key as Redux.UserLanguage])
+    Object.entries(ROUTE_MAPPING).map(([key, value]) => [value, key as Redux.UserLanguage]),
 );
 
 interface RouteLanguageProviderParams {
@@ -52,7 +52,7 @@ export const RouteLanguageProvider: React.FC<RouteLanguageProviderProps> = ({
                 pathname: location.pathname.replace(/^\/[^/]*/, `/${pathname}`),
             });
         },
-        [navigate, store]
+        [navigate, store],
     );
 
     const routeIncludesLanguage = !!routeLanguage;
@@ -73,5 +73,10 @@ export const RouteLanguageProvider: React.FC<RouteLanguageProviderProps> = ({
     if (!routeIncludesLanguage) {
         return null;
     }
-    return <RouteLanguageContext.Provider value={value}>{children}</RouteLanguageContext.Provider>;
+
+    return (
+        <RouteLanguageContext.Provider value={value}>
+            {children}
+        </RouteLanguageContext.Provider>
+    );
 };

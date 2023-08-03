@@ -1,5 +1,5 @@
 import { Game } from '@diablosnaps/common';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserLanguage } from './types';
 
 interface UserState {

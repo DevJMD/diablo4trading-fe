@@ -28,10 +28,12 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
     const { i18n } = useLingui();
     const { language, translations } = Common.useAssets();
 
-    const options = Object.values(Game.ItemType).map((type) => ({
-        id: type,
-        label: Game.getItemTypeText(type, language, translations),
-    }));
+    const options = Object
+        .values(Game.ItemType)
+        .map((type) => ({
+            id: type,
+            label: Game.getItemTypeText(type, language, translations),
+        }));
     let selected = value === undefined ? null : options.find((x) => x.id === value);
     if (selected === undefined) {
         options.push({
@@ -48,20 +50,15 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
             filterOptions={(options, { inputValue }) =>
                 inputValue.length >= 1
                     ? matchSorter(options, inputValue, {
-                          keys: ['label'],
-                      })
-                    : options
-            }
+                        keys: ['label'],
+                    })
+                    : options}
             onChange={(_, option) => onChange(option?.id)}
             renderOption={(props, option) => (
                 <li {...props}>
                     <ItemTypeIcon
                         src={Common.GAME_ITEM_TYPE_ICONS[option.id]}
-                        alt={t(i18n)`${Game.getItemTypeText(
-                            option.id,
-                            language,
-                            translations
-                        )}'s icon`}
+                        alt={t(i18n)`${Game.getItemTypeText(option.id, language, translations)}'s icon`}
                     />
                     &nbsp;
                     {option.label}
@@ -73,16 +70,14 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
                     label={label}
                     InputProps={{
                         ...params.InputProps,
-                        startAdornment: Common.GAME_ITEM_TYPE_ICONS[value] ? (
-                            <ItemTypeIcon
-                                src={Common.GAME_ITEM_TYPE_ICONS[value]}
-                                alt={t(i18n)`${Game.getItemTypeText(
-                                    value,
-                                    language,
-                                    translations
-                                )}'s icon`}
-                            />
-                        ) : undefined,
+                        startAdornment: Common.GAME_ITEM_TYPE_ICONS[value]
+                            ? (
+                                <ItemTypeIcon
+                                    src={Common.GAME_ITEM_TYPE_ICONS[value]}
+                                    alt={t(i18n)`${Game.getItemTypeText(value, language, translations)}'s icon`}
+                                />
+                            )
+                            : undefined,
                     }}
                 />
             )}

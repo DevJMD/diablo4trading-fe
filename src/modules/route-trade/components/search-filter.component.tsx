@@ -5,7 +5,6 @@ import { Common } from '@modules/common';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RestoreIcon from '@mui/icons-material/Restore';
-import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Card, Collapse, Divider, Grid } from '@mui/material';
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
@@ -15,26 +14,30 @@ import { SearchFilterSeasonal } from './search-filter-seasonal.component';
 
 const SEASONAL_SERVERS = [Game.ServerType.Seasonal, Game.ServerType.SeasonalHardcore];
 
+const isSeasonalItemType = (type: Game.ItemType) => [Game.ItemType.Amulet, Game.ItemType.Ring].includes(type);
+
 interface SearchFilterProps {
-    payload: API.SearchPayload;
-    onSearch: (payload: API.SearchPayload) => void;
-    searching?: boolean;
+    payload: API.TradeSearchPayload;
+    onSearch: (payload: API.TradeSearchPayload) => void;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = ({
     payload: initialPayload,
     onSearch,
-    searching,
 }) => {
     const { i18n } = useLingui();
 
     const [serverType, setServerType] = Common.useRouteServerType();
 
     const [visible, setVisible] = React.useState<boolean>(true);
-    const [payload, setPayload] = React.useState<API.SearchPayload>(initialPayload);
+    const [payload, setPayload] = React.useState<API.TradeSearchPayload>(initialPayload);
+
+    const {
+        query = {},
+    } = payload;
 
     React.useEffect(() => {
-        if (!SEASONAL_SERVERS.includes(serverType)) {
+        if (!SEASONAL_SERVERS.includes(serverType) || !isSeasonalItemType(payload.query?.item?.type)) {
             if (payload.query?.seasonal) {
                 setPayload({
                     ...payload,
@@ -55,126 +58,73 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
         setVisible(true);
     };
 
-    const { query = {} } = payload;
-
-    const isSeasonalItemType = (type: Game.ItemType) =>
-        [Game.ItemType.Amulet, Game.ItemType.Ring].includes(type);
-
     return (
         <form onSubmit={handleSubmit}>
             <Card sx={{ p: 2, pt: 0 }}>
                 <Collapse in={visible}>
                     <Box pt={2}>
-                        <Grid
-                            container
-                            spacing={2}
-                        >
-                            <Grid
-                                item
-                                xs={12}
-                                md={6}
-                            >
-                                <Grid
-                                    container
-                                    item
-                                    spacing={2}
-                                >
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <Grid container item spacing={2}>
+                                    <Grid item xs={12}>
                                         <SearchFilterItem
                                             value={query.item}
                                             onChange={(item) =>
                                                 setPayload({
                                                     ...payload,
                                                     query: { ...query, item },
-                                                })
-                                            }
+                                                })}
                                         />
                                     </Grid>
-                                    {SEASONAL_SERVERS.includes(serverType) &&
-                                        isSeasonalItemType(query?.item?.type) && (
-                                            <Grid
-                                                item
-                                                xs={12}
-                                            >
-                                                <SearchFilterSeasonal
-                                                    value={query.seasonal}
-                                                    onChange={(seasonal) =>
-                                                        setPayload({
-                                                            ...payload,
-                                                            query: {
-                                                                ...query,
-                                                                seasonal,
-                                                            },
-                                                        })
-                                                    }
-                                                />
-                                            </Grid>
-                                        )}
+                                    {SEASONAL_SERVERS.includes(serverType) && isSeasonalItemType(query?.item?.type) && (
+                                        <Grid item xs={12}>
+                                            <SearchFilterSeasonal
+                                                value={query.seasonal}
+                                                onChange={(seasonal) =>
+                                                    setPayload({
+                                                        ...payload,
+                                                        query: {
+                                                            ...query,
+                                                            seasonal,
+                                                        },
+                                                    })}
+                                            />
+                                        </Grid>
+                                    )}
                                 </Grid>
                             </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                md={6}
-                            >
+                            <Grid item xs={12} md={6}>
                                 <SearchFilterAffix
                                     value={query.affix}
                                     onChange={(affix) =>
                                         setPayload({
                                             ...payload,
                                             query: { ...query, affix },
-                                        })
-                                    }
+                                        })}
                                 />
                             </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                sx={{ display: { md: 'none' } }}
-                            >
+                            <Grid item xs={12} sx={{ display: { md: 'none' } }}>
                                 <Divider />
                             </Grid>
                         </Grid>
                     </Box>
                 </Collapse>
                 <Box pt={2}>
-                    <Grid
-                        container
-                        spacing={1}
-                    >
-                        <Grid
-                            item
-                            xs={12}
-                            sm={12}
-                            md={3}
-                        >
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} sm={12} md={3}>
                             <Common.ServerTypeInput
                                 value={serverType}
                                 onChange={setServerType}
                             />
                         </Grid>
-                        <Grid
-                            md={1}
-                            item
-                            sx={{ display: { xs: 'none', md: 'block' } }}
-                        />
-                        <Grid
-                            item
-                            xs={12}
-                            sm={12}
-                            md={4}
-                        >
+                        <Grid md={1} item sx={{ display: { xs: 'none', md: 'block' } }} />
+                        <Grid item xs={12} sm={12} md={4}>
                             <Button
                                 variant='outlined'
                                 fullWidth
                                 onClick={handleSubmit}
-                                startIcon={!searching ? <SearchIcon /> : undefined}
-                                disabled={searching}
                             >
-                                {!searching ? t(i18n)`Search` : t(i18n)`Searching...`}
+                                {t(i18n)`Search`}
                             </Button>
                         </Grid>
                         <Grid
@@ -194,7 +144,6 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                                 variant='outlined'
                                 onClick={handleClear}
                                 startIcon={<RestoreIcon />}
-                                disabled={searching}
                             >
                                 {t(i18n)`Clear`}
                             </Button>

@@ -1,35 +1,27 @@
 import { API } from '@sanctuaryteam/shared';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SearchFilter } from '../components';
-import { parseSearchPayload, stringifySearchPayload } from '../utils';
+import { Search, SearchFilter } from '../components';
 
 const PARAM_PAYLOAD = 'p';
 
 export const SearchPage: React.FC = () => {
     const [params, setParams] = useSearchParams();
 
-    const stringifiedPayload = params.get(PARAM_PAYLOAD);
-
+    const serializedPayload = params.get(PARAM_PAYLOAD);
     const payload = React.useMemo(() => {
-        return parseSearchPayload(stringifiedPayload);
-    }, [stringifiedPayload]);
+        return API.deserializeTradeSearchPayload(serializedPayload);
+    }, [serializedPayload]);
 
-    const setPayload = React.useCallback(
-        (payload: API.SearchPayload) => {
-            setParams({
-                [PARAM_PAYLOAD]: stringifySearchPayload(payload),
-            });
-        },
-        [setParams]
-    );
+    const [timestamp, setTimestamp] = React.useState<number>(undefined);
 
-    const handleSearch = React.useCallback(
-        (payload: API.SearchPayload) => {
-            setPayload(payload);
-        },
-        [setPayload]
-    );
+    const handleSearch = (payload: API.TradeSearchPayload) => {
+        // Reset timestamp to force re-render
+        setTimestamp(undefined);
+        setParams({
+            [PARAM_PAYLOAD]: API.serializeTradeSearchPayload(payload),
+        });
+    };
 
     return (
         <React.Fragment>
@@ -37,6 +29,13 @@ export const SearchPage: React.FC = () => {
                 payload={payload}
                 onSearch={handleSearch}
             />
+            {serializedPayload?.length > 0 && (
+                <Search
+                    serializedPayload={serializedPayload}
+                    timestamp={timestamp}
+                    onTimestampChange={setTimestamp}
+                />
+            )}
         </React.Fragment>
     );
 };

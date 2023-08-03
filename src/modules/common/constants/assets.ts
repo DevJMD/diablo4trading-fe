@@ -1,7 +1,3 @@
-import itemSocketTypeIconDefensive from '@assets/game/2DUIItemComponents/1031070640.webp';
-import itemSocketTypeIconUtility from '@assets/game/2DUIItemComponents/1031570266.webp';
-import itemSocketTypeIconOffensive from '@assets/game/2DUIItemComponents/2364632900.webp';
-import itemSocketTypeIconUniversal from '@assets/game/2DUIItemComponents/376327111.webp';
 import classIconBarbarian from '@assets/game/2DUI_ClassIcons/1080583445.webp';
 import classIconSorcerer from '@assets/game/2DUI_ClassIcons/1081209621.webp';
 import classIconDruid from '@assets/game/2DUI_ClassIcons/1302501686.webp';
@@ -21,6 +17,10 @@ import serverTypeSeasonal from '@assets/game/2DUI_Social_ServerType/1780021540.w
 import serverTypeEternal from '@assets/game/2DUI_Social_ServerType/395747417.webp';
 import serverTypeSeasonalHardcore from '@assets/game/2DUI_Social_ServerType/470588524.webp';
 import serverTypeHardcore from '@assets/game/2DUI_Social_ServerType/904762742.webp';
+import itemSocketTypeIconDefensive from '@assets/game/2DUIItemComponents/1031070640.webp';
+import itemSocketTypeIconUtility from '@assets/game/2DUIItemComponents/1031570266.webp';
+import itemSocketTypeIconOffensive from '@assets/game/2DUIItemComponents/2364632900.webp';
+import itemSocketTypeIconUniversal from '@assets/game/2DUIItemComponents/376327111.webp';
 import { Game } from '@diablosnaps/common';
 
 export const GAME_SERVER_TYPE_ICONS: Record<Game.ServerType, string> = {
