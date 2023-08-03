@@ -4,7 +4,7 @@ import { BackendSlice } from './../backend/slice';
 
 interface AuthState {
     token: string;
-    user: API.User;
+    user: API.AuthUser;
 }
 
 export const AUTH_STATE_INITIAL: AuthState = {
