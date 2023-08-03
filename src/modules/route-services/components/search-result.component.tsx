@@ -16,7 +16,12 @@ interface SearchResultProps {
     content: string;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, content }) => {
+export const SearchResult: React.FC<SearchResultProps> = ({
+    user,
+    lastUpdated,
+    title,
+    content,
+}) => {
     const { i18n } = useLingui();
     const [visible, setVisible] = React.useState<boolean>(false);
 
@@ -130,5 +135,3 @@ const SearchResult: React.FC<SearchResultProps> = ({ user, lastUpdated, title, c
         </Card>
     );
 };
-
-export default SearchResult;

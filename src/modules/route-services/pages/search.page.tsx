@@ -10,7 +10,7 @@ import {
     Typography,
 } from '@mui/material';
 import React from 'react';
-import SearchResult from '../components/search-result.component';
+import { SearchResult } from '../components';
 
 const TAGS = {
     POWERLEVELING: 1 << 0,

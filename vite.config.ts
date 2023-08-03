@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
+// eslint-disable-next-line import/no-default-export
 export default defineConfig({
     resolve: {
         alias: {

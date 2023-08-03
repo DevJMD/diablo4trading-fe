@@ -16,10 +16,21 @@ module.exports = {
         project: ['./tsconfig.json', './tsconfig.node.json'],
         tsconfigRootDir: __dirname,
     },
-    plugins: ['react-refresh'],
+    plugins: ['react-refresh', 'eslint-plugin-import'],
     rules: {
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         //disable react/prop-types warning since we're using typescript
         'react/prop-types': 0,
+
+        'import/no-default-export': 'error',
+        'no-restricted-imports': [
+            'error',
+            {
+                patterns: ['@mui/*/*/*'],
+            },
+        ],
+    },
+    settings: {
+        react: { version: 'detect' },
     },
 };
