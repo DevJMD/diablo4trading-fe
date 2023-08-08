@@ -42,6 +42,12 @@ export const Footer: React.FC = () => {
                 </Link>
                 <Link target='_blank' href='https://discord.gg/Diablo4'>
                     <SvgIcon component={DiscordIcon} />
+                </Link>           
+                <Link target='_blank' href='https://oag.ca.gov/privacy/ccpa'>
+                    CCPA
+                </Link>
+                <Link target='_blank' href='#'>
+                    Privacy Policy
                 </Link>
             </Stack>
         </Root>
