@@ -55,5 +55,6 @@ export const {
     // auth
     useAuthDiscordCallbackQuery,
     // trade
+    useTradeSearchQuery,
     useLazyTradeSearchQuery,
 } = BackendSlice;
