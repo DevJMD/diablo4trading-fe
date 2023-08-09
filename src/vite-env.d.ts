@@ -8,3 +8,8 @@ interface ImportMetaEnv extends Readonly<Record<string, string>> {
 interface ImportMeta {
     readonly env: ImportMetaEnv;
 }
+
+declare module '*.md' {
+    const html: string;
+    export { html };
+}
