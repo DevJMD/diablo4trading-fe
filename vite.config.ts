@@ -5,7 +5,6 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import url from 'node:url';
 import { defineConfig, PluginOption } from 'vite';
-import * as md from 'vite-plugin-markdown';
 import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
@@ -26,8 +25,7 @@ export default defineConfig({
         }),
         lingui(),
         svgr(),
-        reactVirtualized(),
-        md.plugin({ mode: [md.Mode.HTML] }),
+        reactVirtualized()
     ],
 });
 
