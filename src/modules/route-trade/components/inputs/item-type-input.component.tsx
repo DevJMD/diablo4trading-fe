@@ -7,23 +7,25 @@ import { styled } from '@mui/material/styles';
 import { matchSorter } from 'match-sorter';
 
 const ItemTypeIcon = styled('img')(() => ({
-    width: 22,
-    height: 22,
+    width: 'auto',
+    height: 24,
     marginRight: 4,
 }));
 
 interface ItemTypeInputProps {
     value: Game.ItemType;
-    label?: string;
-    disabled?: boolean;
     onChange: (value: Game.ItemType) => void;
+    label?: string;
+    required?: boolean;
+    disabled?: boolean;
 }
 
 export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
     value,
-    label,
-    disabled,
     onChange,
+    label,
+    required,
+    disabled,
 }) => {
     const { i18n } = useLingui();
     const { language, translations } = Common.useAssets();
@@ -57,7 +59,7 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
             renderOption={(props, option) => (
                 <li {...props}>
                     <ItemTypeIcon
-                        src={Common.GAME_ITEM_TYPE_ICONS[option.id]}
+                        src={Common.GAME_ITEM_TYPE_TOOLTIP_ICONS[option.id]}
                         alt={t(i18n)`${Game.getItemTypeText(option.id, language, translations)}'s icon`}
                     />
                     &nbsp;
@@ -68,12 +70,13 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
                 <TextField
                     {...params}
                     label={label}
+                    required={required}
                     InputProps={{
                         ...params.InputProps,
-                        startAdornment: Common.GAME_ITEM_TYPE_ICONS[value]
+                        startAdornment: Common.GAME_ITEM_TYPE_TOOLTIP_ICONS[value]
                             ? (
                                 <ItemTypeIcon
-                                    src={Common.GAME_ITEM_TYPE_ICONS[value]}
+                                    src={Common.GAME_ITEM_TYPE_TOOLTIP_ICONS[value]}
                                     alt={t(i18n)`${Game.getItemTypeText(value, language, translations)}'s icon`}
                                 />
                             )
@@ -81,6 +84,7 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
                     }}
                 />
             )}
+            disableClearable={required}
             disabled={disabled}
         />
     );

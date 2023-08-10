@@ -1,6 +1,15 @@
-import { Dialog } from '@mui/material';
+import { Dialog as MuiDialog, dialogClasses } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListingDetail, ListingNew, Listings } from '../components';
+
+const NEW_ID = 'new';
+
+const Dialog = styled(MuiDialog)(({ theme }) => ({
+    [`& .${dialogClasses.paper}`]: {
+        maxWidth: theme.breakpoints.values.md,
+    },
+}));
 
 interface ListingsParam {
     id?: string;
@@ -16,13 +25,28 @@ export const ListingsPage: React.FC = () => {
         navigate(hasId ? `./../${id}` : `./${id}`);
     };
 
+    const handleNewClick = () => {
+        setId(NEW_ID);
+    };
+
+    const handleCancel = () => {
+        setId('');
+    };
+
     return (
         <>
-            <Listings onDetailClick={setId} />
-            <Dialog open={hasId}>
-                {id === 'new'
-                    ? <ListingNew />
-                    : <ListingDetail id={id} />}
+            <Listings
+                onNewClick={handleNewClick}
+                onDetailClick={setId}
+            />
+            <Dialog
+                open={hasId}
+            >
+                {hasId && (
+                    id === NEW_ID
+                        ? <ListingNew onCancel={handleCancel} />
+                        : <ListingDetail id={id} />
+                )}
             </Dialog>
         </>
     );

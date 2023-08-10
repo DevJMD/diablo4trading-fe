@@ -14,16 +14,16 @@ const ClassIcon = styled('img')(() => ({
 
 interface CharacterClassInputProps {
     value: Game.Class;
+    onChange: (value: Game.Class) => void;
     label?: string;
     disabled?: boolean;
-    onChange: (value: Game.Class) => void;
 }
 
 export const CharacterClassInput: React.FC<CharacterClassInputProps> = ({
     value,
+    onChange,
     label,
     disabled,
-    onChange,
 }) => {
     const { i18n } = useLingui();
     const { language, translations } = Common.useAssets();

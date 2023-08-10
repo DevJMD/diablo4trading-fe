@@ -2,7 +2,7 @@ import { Game } from '@diablosnaps/common';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Common } from '@modules/common';
-import { Card, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DataGrid as MuiDataGrid, GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { API } from '@sanctuaryteam/shared';
@@ -185,20 +185,18 @@ export const ListingsDataGrid: React.FC<ListingsDataGridProps> = ({
     };
 
     return (
-        <Card sx={{ p: 2 }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                density='compact'
-                getCellClassName={(params: GridCellParams<Row>) => `item-quality-${params.row.itemQuality}`}
-                getRowHeight={() => 'auto'}
-                getEstimatedRowHeight={() => 90}
-                onRowClick={handleRowClick}
-                slots={{ noRowsOverlay: () => t(i18n)`No results found` }}
-                disableColumnMenu
-                disableRowSelectionOnClick
-                hideFooter
-            />
-        </Card>
+        <DataGrid
+            rows={rows}
+            columns={columns}
+            density='compact'
+            getCellClassName={(params: GridCellParams<Row>) => `item-quality-${params.row.itemQuality}`}
+            getRowHeight={() => 'auto'}
+            getEstimatedRowHeight={() => 90}
+            onRowClick={handleRowClick}
+            slots={{ noRowsOverlay: () => t(i18n)`No results found` }}
+            disableColumnMenu
+            disableRowSelectionOnClick
+            hideFooter
+        />
     );
 };
