@@ -1,10 +1,10 @@
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Common } from '@modules/common';
+import { ReportDialog, ReportType } from '@modules/common/components';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import TollIcon from '@mui/icons-material/Toll';
 import { Avatar, Box, Button, Card, Collapse, Divider, Typography } from '@mui/material';
 import React from 'react';
@@ -94,14 +94,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                         >
                             {t(i18n)`Bump`}
                         </Button>
-                        <Button
-                            color='error'
-                            variant='outlined'
-                            startIcon={<ReportGmailerrorredIcon />}
-                            sx={{ ml: 1 }}
-                        >
-                            {t(i18n)`Report`}
-                        </Button>
+                        <ReportDialog reportType={ReportType.Service}/>
                     </Box>
                     <Box>
                         <Typography variant='body2' color='textSecondary'>
