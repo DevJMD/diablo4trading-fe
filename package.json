@@ -15,7 +15,7 @@
     "format": "dprint fmt"
   },
   "dependencies": {
-    "@diablosnaps/assets": "^0.2.5",
+    "@diablosnaps/assets": "^0.2.6",
     "@diablosnaps/common": "^0.2.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
