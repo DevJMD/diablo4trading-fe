@@ -193,7 +193,7 @@ export const ListingsDataGrid: React.FC<ListingsDataGridProps> = ({
             getRowHeight={() => 'auto'}
             getEstimatedRowHeight={() => 90}
             onRowClick={handleRowClick}
-            slots={{ noRowsOverlay: () => t(i18n)`No results found` }}
+            slots={{ noRowsOverlay: () => t(i18n)`No listings. Create a new one!` }}
             disableColumnMenu
             disableRowSelectionOnClick
             hideFooter

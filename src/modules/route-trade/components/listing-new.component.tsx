@@ -28,10 +28,12 @@ const STEP_ORDER = [
 
 interface ListingNewProps {
     onCancel: () => void;
+    onPublish: () => void;
 }
 
 export const ListingNew: React.FC<ListingNewProps> = ({
     onCancel,
+    onPublish,
 }) => {
     const { i18n } = useLingui();
 
@@ -71,31 +73,31 @@ export const ListingNew: React.FC<ListingNewProps> = ({
     };
 
     const handleNext = () => {
-        if (step === Step.Params) {
-            // TODO: call ocr
-            setLoading(true);
-            window.setTimeout(() => {
-                setLoading(false);
-                setStep(Step.Item);
-            }, 1000 * 3);
-        } else {
-            const stepIndex = STEP_ORDER.indexOf(step);
-            const nextStep = STEP_ORDER[stepIndex + 1];
-            setStep(nextStep);
+        switch (step) {
+            case Step.Params:
+                // call ocr
+                setLoading(true);
+                window.setTimeout(() => {
+                    setLoading(false);
+                    setStep(Step.Item);
+                }, 1000 * 1.5);
+                break;
+            case Step.Listing:
+                // publish
+                onPublish();
+                break;
+            default:
+                {
+                    const stepIndex = STEP_ORDER.indexOf(step);
+                    const nextStep = STEP_ORDER[stepIndex + 1];
+                    setStep(nextStep);
+                }
+                break;
         }
     };
 
     if (loading) {
-        return (
-            <Box
-                height='100%'
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-            >
-                <Common.Spinner />
-            </Box>
-        );
+        return <Common.Spinner />;
     }
 
     const isValid = (() => {
@@ -135,6 +137,7 @@ export const ListingNew: React.FC<ListingNewProps> = ({
                         serverType={paramsForm.serverType}
                     />
                 )}
+                {step === Step.Listing && <div>TODO</div>}
                 <Stack
                     direction='row'
                     justifyContent='flex-end'
@@ -151,7 +154,9 @@ export const ListingNew: React.FC<ListingNewProps> = ({
                         disabled={!isValid}
                         variant='contained'
                     >
-                        {t(i18n)`Next`}
+                        {step === STEP_ORDER[STEP_ORDER.length - 1]
+                            ? t(i18n)`Publish`
+                            : t(i18n)`Next`}
                     </Button>
                 </Stack>
             </Stack>

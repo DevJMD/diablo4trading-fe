@@ -120,6 +120,7 @@ const Extras = styled('div')(() => ({
     fontSize: 16,
     lineHeight: '20px',
     textAlign: 'right',
+    marginTop: 6,
 }));
 
 interface ItemTooltipProps {

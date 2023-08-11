@@ -33,19 +33,26 @@ export const ListingsPage: React.FC = () => {
         setId('');
     };
 
+    const handlePublish = () => {
+        setId('');
+    };
+
     return (
         <>
             <Listings
                 onNewClick={handleNewClick}
                 onDetailClick={setId}
             />
-            <Dialog
-                open={hasId}
-            >
+            <Dialog open={hasId}>
                 {hasId && (
                     id === NEW_ID
-                        ? <ListingNew onCancel={handleCancel} />
-                        : <ListingDetail id={id} />
+                        ? (
+                            <ListingNew
+                                onCancel={handleCancel}
+                                onPublish={handlePublish}
+                            />
+                        )
+                        : <ListingDetail id={id} onCancel={handleCancel} />
                 )}
             </Dialog>
         </>
