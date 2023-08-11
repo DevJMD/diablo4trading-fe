@@ -27,11 +27,11 @@ const Tooltip = styled('div')(({ theme }) => ({
     zIndex: 0,
     margin: '16px',
     padding: '28px 24px',
-    maxWidth: 340,
+    maxWidth: 324,
 
     color: theme.palette.item.text,
-    fontSize: 20,
-    lineHeight: '24px',
+    fontSize: 18,
+    lineHeight: '22px',
     textShadow: '0 0 2px #000',
 
     borderImage: `url(${TooltipBase}) 76 fill / 38px stretch`,
@@ -61,12 +61,12 @@ const Tooltip = styled('div')(({ theme }) => ({
 
     '& ul': {
         margin: 0,
-        padding: 16,
+        padding: theme.spacing(0, 1),
         '& li': {
             listStyle: 'none',
-            background: `url(${TooltipBulletPoint}) no-repeat 0 12px`,
+            background: `url(${TooltipBulletPoint}) no-repeat 0 10px`,
             backgroundSize: 8,
-            paddingLeft: 20,
+            paddingLeft: 14,
             margin: '2px 0',
         },
     },
@@ -77,18 +77,18 @@ const Icon = styled('div')(() => ({
     zIndex: 1,
     top: -6,
     right: 12,
-    width: 80,
-    height: 120,
+    width: 70,
+    height: 105,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
 }));
 
 const TypeLine = styled('div')(({ theme }) => ({
-    fontSize: 24,
-    lineHeight: '28px',
+    fontSize: 22,
+    lineHeight: '26px',
     color: theme.palette.item.rare,
-    paddingRight: 96,
+    paddingRight: 64,
     [`&[data-quality="${Game.ItemQuality.Magic}"]`]: {
         color: theme.palette.item.magic,
     },
@@ -105,15 +105,21 @@ const Number = styled('span')(({ theme }) => ({
 
 const Separator = styled('div')(() => ({
     backgroundImage: `url(${TooltipHeaders})`,
-    width: 358,
+    width: 276,
     maxWidth: '100%',
-    height: 10,
-    backgroundPositionY: -32,
+    height: 8,
+    backgroundPositionY: -24,
     margin: '6px auto',
     '&[data-left]': {
-        backgroundPositionY: -42,
+        backgroundPositionY: -32,
         marginLeft: 0,
     },
+}));
+
+const Extras = styled('div')(() => ({
+    fontSize: 16,
+    lineHeight: '20px',
+    textAlign: 'right',
 }));
 
 interface ItemTooltipProps {
@@ -142,6 +148,16 @@ export const ItemTooltip: React.FC<ItemTooltipProps> = ({
     const itemPower = replaceVariables(translations[language]['UIItemPower'], {
         s1: `${isNaN(item.power) ? 1 : item.power}`,
     }).trim();
+
+    const requiredLevel = item.requiredLevel > 0
+        ? replaceVariables(translations[language]['RequiredLevel'], {
+            value: `${item.requiredLevel}`,
+        }).trim()
+        : undefined;
+
+    const classRestriction = item.classRestriction?.length > 0
+        ? Game.getCharacterClassText(item.classRestriction, language, translations)
+        : undefined;
 
     const renderAffixes = (entries: Game.ItemAffix[]) => {
         return (
@@ -178,6 +194,12 @@ export const ItemTooltip: React.FC<ItemTooltipProps> = ({
                 </>
             )}
             {item.affixes?.length > 0 && renderAffixes(item.affixes)}
+            {(requiredLevel !== undefined || classRestriction !== undefined) && (
+                <Extras>
+                    {requiredLevel !== undefined && <Number>{requiredLevel}</Number>}
+                    {classRestriction !== undefined && <div>{classRestriction}</div>}
+                </Extras>
+            )}
         </Tooltip>
     );
 };
