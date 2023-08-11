@@ -5,6 +5,6 @@ test('poc pass Test', () => {
 
 test('poc fail Test', () => {
     const diablo = 666;
-    const baal = 665;
+    const baal = 664;
     expect(diablo > baal).toBe(true);
 });
