@@ -17,6 +17,7 @@ interface CharacterClassInputProps {
     onChange: (value: Game.Class) => void;
     label?: string;
     disabled?: boolean;
+    language?: Game.Language;
 }
 
 export const CharacterClassInput: React.FC<CharacterClassInputProps> = ({
@@ -24,14 +25,18 @@ export const CharacterClassInput: React.FC<CharacterClassInputProps> = ({
     onChange,
     label,
     disabled,
+    language: formLanguage,
 }) => {
     const { i18n } = useLingui();
-    const { language, translations } = Common.useAssets();
+    const { language: assetsLanguage, translations } = Common.useAssets();
+    const language = formLanguage ?? assetsLanguage;
 
-    const options = Object.values(Game.Class).map((characterClass) => ({
-        id: characterClass,
-        label: Game.getCharacterClassText(characterClass, language, translations),
-    }));
+    const options = Object
+        .values(Game.Class)
+        .map((characterClass) => ({
+            id: characterClass,
+            label: Game.getCharacterClassText(characterClass, language, translations),
+        }));
     let selected = value === undefined ? null : options.find((x) => x.id === value);
     if (selected === undefined) {
         options.push({

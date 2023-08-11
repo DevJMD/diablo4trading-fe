@@ -18,6 +18,7 @@ interface ItemSocketTypeInputProps {
     label?: string;
     required?: boolean;
     disabled?: boolean;
+    language?: Game.Language;
 }
 
 export const ItemSocketTypeInput: React.FC<ItemSocketTypeInputProps> = ({
@@ -26,9 +27,11 @@ export const ItemSocketTypeInput: React.FC<ItemSocketTypeInputProps> = ({
     label,
     required,
     disabled,
+    language: formLanguage,
 }) => {
     const { i18n } = useLingui();
-    const { language, translations } = Common.useAssets();
+    const { language: assetsLanguage, translations } = Common.useAssets();
+    const language = formLanguage ?? assetsLanguage;
 
     const options = Object
         .values(Game.ItemSocketType)

@@ -1,22 +1,22 @@
 import { Game } from '@diablosnaps/common';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import { Button, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 
-const Root = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
+const Root = styled(Stack)(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     borderStyle: 'dashed',
     padding: theme.spacing(4),
-    height: '100%',
 }));
+Root.defaultProps = {
+    direction: 'column',
+    spacing: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+};
 
 const Input = styled('input')(() => ({
     display: 'none',
@@ -29,7 +29,8 @@ interface ListingNewImport {
 
 export const ListingNewImport: React.FC<ListingNewImport> = ({
     onImageImport,
-    onItemImport,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onItemImport: _,
 }) => {
     const { i18n } = useLingui();
 

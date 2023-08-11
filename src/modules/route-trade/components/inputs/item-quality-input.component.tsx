@@ -11,6 +11,7 @@ interface ItemQualityInputProps {
     label?: string;
     required?: boolean;
     disabled?: boolean;
+    language?: Game.Language;
 }
 
 export const ItemQualityInput: React.FC<ItemQualityInputProps> = ({
@@ -19,9 +20,11 @@ export const ItemQualityInput: React.FC<ItemQualityInputProps> = ({
     label,
     required,
     disabled,
+    language: formLanguage,
 }) => {
     const { i18n } = useLingui();
-    const { language, translations } = Common.useAssets();
+    const { language: assetsLanguage, translations } = Common.useAssets();
+    const language = formLanguage ?? assetsLanguage;
 
     const options = [Game.ItemQuality.Common, Game.ItemQuality.Magic, Game.ItemQuality.Rare]
         .map((type) => ({

@@ -2,8 +2,7 @@ import { Game } from '@diablosnaps/common';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Common } from '@modules/common';
-import { Box, Button, Grid, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Button, Stack } from '@mui/material';
 import React from 'react';
 import { ListingNewImport } from './listing-new-1_import.component';
 import { ListingNewParams } from './listing-new-2_params.component';
@@ -12,17 +11,6 @@ import { ListingNewParamsFormValue } from './listing-new-2_params.types';
 import { ListingNewItem } from './listing-new-3_item.component';
 import { isListingNewItemFormValid } from './listing-new-3_item.helper';
 import { ListingNewItemFormValue } from './listing-new-3_item.types';
-
-const Image = styled('div')(({ theme }) => ({
-    height: '100%',
-    minHeight: 384,
-    width: '100%',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'contain',
-    borderTopLeftRadius: theme.shape.borderRadius,
-    borderBottomLeftRadius: theme.shape.borderRadius,
-}));
 
 enum Step {
     Import,
@@ -97,6 +85,19 @@ export const ListingNew: React.FC<ListingNewProps> = ({
         }
     };
 
+    if (loading) {
+        return (
+            <Box
+                height='100%'
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+            >
+                <Common.Spinner />
+            </Box>
+        );
+    }
+
     const isValid = (() => {
         switch (step) {
             case Step.Import:
@@ -110,74 +111,50 @@ export const ListingNew: React.FC<ListingNewProps> = ({
         }
     })();
 
-    const hasImage = image.length > 0 && step !== Step.Params;
     return (
-        <Grid height='100%' container>
-            {hasImage && (
-                <Grid xs={12} md={4} item>
-                    <Image style={{ backgroundImage: `url(${image})` }} />
-                </Grid>
-            )}
-            <Grid xs={12} md={hasImage ? 8 : 12} item>
-                {loading
-                    ? (
-                        <Box
-                            height='100%'
-                            display='flex'
-                            alignItems='center'
-                            justifyContent='center'
-                        >
-                            <Common.Spinner />
-                        </Box>
-                    )
-                    : (
-                        <Box height='100%' p={2}>
-                            <Stack height='100%' gap={1}>
-                                <Box height='100%'>
-                                    {step === Step.Import && (
-                                        <ListingNewImport
-                                            onImageImport={handleImageImport}
-                                            onItemImport={handleItemImport}
-                                        />
-                                    )}
-                                    {step === Step.Params && (
-                                        <ListingNewParams
-                                            value={paramsForm}
-                                            onChange={setParamsForm}
-                                        />
-                                    )}
-                                    {step === Step.Item && (
-                                        <ListingNewItem
-                                            value={itemForm}
-                                            onChange={setItemForm}
-                                            serverType={paramsForm.serverType}
-                                        />
-                                    )}
-                                </Box>
-                                <Stack
-                                    direction='row'
-                                    justifyContent='space-between'
-                                >
-                                    <Button
-                                        onClick={onCancel}
-                                        color='secondary'
-                                    >
-                                        {t(i18n)`Cancel`}
-                                    </Button>
-                                    {typeof isValid === 'boolean' && (
-                                        <Button
-                                            onClick={handleNext}
-                                            disabled={!isValid}
-                                            variant='contained'
-                                        >
-                                            {t(i18n)`Next`}
-                                        </Button>
-                                    )}
-                                </Stack>
-                            </Stack>
-                        </Box>
-                    )}
-            </Grid>
-        </Grid>
+        <Box p={2}>
+            <Stack height='100%' gap={1}>
+                {step === Step.Import && (
+                    <ListingNewImport
+                        onImageImport={handleImageImport}
+                        onItemImport={handleItemImport}
+                    />
+                )}
+                {step === Step.Params && (
+                    <ListingNewParams
+                        value={paramsForm}
+                        onChange={setParamsForm}
+                    />
+                )}
+                {step === Step.Item && (
+                    <ListingNewItem
+                        value={itemForm}
+                        onChange={setItemForm}
+                        image={image}
+                        language={paramsForm.language}
+                        serverType={paramsForm.serverType}
+                    />
+                )}
+                <Stack
+                    direction='row'
+                    justifyContent='flex-end'
+                    spacing={1}
+                >
+                    <Button
+                        onClick={onCancel}
+                        color='secondary'
+                    >
+                        {t(i18n)`Cancel`}
+                    </Button>
+                    <Button
+                        onClick={handleNext}
+                        disabled={!isValid}
+                        variant='contained'
+                    >
+                        {t(i18n)`Next`}
+                    </Button>
+                </Stack>
+            </Stack>
+        </Box>
     );
 };

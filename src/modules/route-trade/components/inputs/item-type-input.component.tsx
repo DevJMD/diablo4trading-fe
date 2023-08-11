@@ -18,6 +18,7 @@ interface ItemTypeInputProps {
     label?: string;
     required?: boolean;
     disabled?: boolean;
+    language?: Game.Language;
 }
 
 export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
@@ -26,9 +27,11 @@ export const ItemTypeInput: React.FC<ItemTypeInputProps> = ({
     label,
     required,
     disabled,
+    language: formLanguage,
 }) => {
     const { i18n } = useLingui();
-    const { language, translations } = Common.useAssets();
+    const { language: assetsLanguage, translations } = Common.useAssets();
+    const language = formLanguage ?? assetsLanguage;
 
     const options = Object
         .values(Game.ItemType)
