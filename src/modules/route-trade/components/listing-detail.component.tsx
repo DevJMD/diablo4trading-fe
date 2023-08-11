@@ -82,7 +82,7 @@ export const ListingDetail: React.FC<ListingDetailProps> = ({
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <div>TODO</div>
+                        <div>{'<< MOCK'}</div>
                     </Grid>
                 </Grid>
                 <Stack
