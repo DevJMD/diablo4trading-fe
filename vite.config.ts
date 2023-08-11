@@ -25,7 +25,7 @@ export default defineConfig({
         }),
         lingui(),
         svgr(),
-        reactVirtualized()
+        reactVirtualized(),
     ],
 });
 
