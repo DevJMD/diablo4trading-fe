@@ -99,6 +99,13 @@ export function createAppTheme(
                 },
             },
 
+            MuiAlert: {
+                styleOverrides: {
+                    root: {
+                        alignItems: 'center'
+                    }
+                }
+            },
             MuiTooltip: {
                 styleOverrides: {
                     tooltip: ({ theme }) => ({

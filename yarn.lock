@@ -231,6 +231,13 @@
   resolved "https://registry.yarnpkg.com/@diablosnaps/common/-/common-0.2.5.tgz#d8d4ca95ca814308ff418f1a082efa18608fba41"
   integrity sha512-OBylbmRaZDF2OAS9Tcw2dZiGPvuYLDpmubP1KCyIWXZ+Hu9DRJt9bLGkj0hyMa26dsu4UHjQXWZIrK8N6oyEag==
 
+"@diablosnaps/rpc@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@diablosnaps/rpc/-/rpc-0.2.5.tgz#08f4e914472a8370ecfc83f212ecb237501ec86b"
+  integrity sha512-0QKXUaIJriEdsSk18JYtAGNK/u9pZyUMaxM0XqQU783WrfG66+ryHDWQ3r8I8+KnrSCrTPiCMDlMj7DTp/R7fA==
+  dependencies:
+    "@diablosnaps/common" "^0.2.5"
+
 "@dprint/darwin-arm64@0.40.2":
   version "0.40.2"
   resolved "https://registry.yarnpkg.com/@dprint/darwin-arm64/-/darwin-arm64-0.40.2.tgz#b77535c3e0d3e6c15eafe4db290f42f1c456da4a"

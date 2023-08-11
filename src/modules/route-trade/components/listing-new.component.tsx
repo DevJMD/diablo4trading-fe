@@ -75,12 +75,16 @@ export const ListingNew: React.FC<ListingNewProps> = ({
     const handleNext = () => {
         switch (step) {
             case Step.Params:
-                // call ocr
-                setLoading(true);
-                window.setTimeout(() => {
-                    setLoading(false);
+                if (itemForm.type === undefined) {
+                    // call ocr
+                    setLoading(true);
+                    window.setTimeout(() => {
+                        setLoading(false);
+                        setStep(Step.Item);
+                    }, 1000 * 1.5);
+                } else {
                     setStep(Step.Item);
-                }, 1000 * 1.5);
+                }
                 break;
             case Step.Listing:
                 // publish

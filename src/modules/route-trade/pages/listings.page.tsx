@@ -7,7 +7,7 @@ const NEW_ID = 'new';
 
 const Dialog = styled(MuiDialog)(({ theme }) => ({
     [`& .${dialogClasses.paper}`]: {
-        maxWidth: theme.breakpoints.values.md,
+        maxWidth: theme.breakpoints.values.lg,
     },
 }));
 
