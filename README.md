@@ -55,3 +55,19 @@ docker-compose run web-app yarn add my-package --dev
 ```bash
 yarn run format
 ```
+
+## Running Tests
+After a Unit test execution, a coverage folder will be created. Reports will be displayed in the output.
+an HTML copy you can open in a boewser will be located here "coverage/unit/src/index.html"
+1. Execute Unit tests
+   1. Will run all files with *.test.ts
+```bash
+yarn run test:unit
+```
+2. Execute unit tests and provide coverage
+   1. After a Unit test execution, a coverage folder will be created.
+   2. Reports will be displayed in the output.
+   3. An HTML copy you can open in a boewser will be located here "coverage/unit/src/index.html"
+```bash
+yarn run test:coverage 
+```
