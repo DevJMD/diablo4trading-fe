@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { html as content } from './privacy.page.md';
+import ReactMarkdown from 'react-markdown';
+import content from './privacy.page.md?raw';
 
 const Content = styled('div')(({ theme }) => ({
     '*': {
@@ -13,7 +14,9 @@ const Content = styled('div')(({ theme }) => ({
 export const PrivacyPage: React.FC = () => {
     return (
         <Content>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <ReactMarkdown>
+                {content}
+            </ReactMarkdown>
         </Content>
     );
 };
