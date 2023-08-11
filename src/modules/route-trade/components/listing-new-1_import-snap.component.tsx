@@ -5,7 +5,7 @@ import { useLingui } from '@lingui/react';
 import { Common } from '@modules/common';
 import { Alert, Button, Snackbar, Stack } from '@mui/material';
 import React, { useEffect } from 'react';
-import { ListingNewImportSnapSearch } from './listing-new-1_import-snap-list.component';
+import { ListingNewImportSnapSearch } from './listing-new-1_import-snap-search.component';
 
 interface ListingNewImportSnapProps {
     onItemImport: (image: string, item: Game.Item) => void;
@@ -85,7 +85,7 @@ export const ListingNewImportSnap: React.FC<ListingNewImportSnapProps> = ({
                             </Stack>
                         }
                     >
-                        {t(i18n)`DIABLOSNAPS is either not running or not installed!`}
+                        {t(i18n)`${'DIABLOSNAPS'} is either not running or not installed!`}
                     </Alert>
                 </Snackbar>
             </>

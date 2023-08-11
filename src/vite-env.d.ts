@@ -10,6 +10,6 @@ interface ImportMeta {
 }
 
 declare module '*.md' {
-    const html: string;
-    export { html };
+    const content: string;
+    export = content;
 }
