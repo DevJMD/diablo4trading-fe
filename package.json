@@ -16,7 +16,7 @@
     "test:unit": "jest --config=jest.unit.config.ts",
     "test:ui": "jest --config=jest.ui.config.ts",
     "test:coverage": "jest --config=jest.unit.config.ts --coverage",
-    "test": "npm run test:unit && npm run test:ui"
+    "test": "yarn run test:unit && yarn run test:ui"
   },
   "dependencies": {
     "@diablosnaps/assets": "^0.2.5",

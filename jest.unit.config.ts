@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from 'jest';
+
+const config: Config = {
     rootDir: './',
     preset: 'ts-jest',
     testEnvironment: 'node',
@@ -14,3 +16,6 @@ module.exports = {
     ],
     'coverageReporters': ['text', 'lcov', 'clover', 'html'],
 };
+
+// eslint-disable-next-line import/no-default-export
+export default config;
