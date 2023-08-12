@@ -55,6 +55,13 @@ docker-compose run web-app yarn add my-package --dev
 ```bash
 yarn run format
 ```
+## Adding or updating localizations
+
+1. Add localizations in English using the string templating pattern that is throughout the project
+2. Run `yarn lingui:extract` to extract the English words to hashes.
+3. Update any localization `.json` files found in `src/modules/common/i18n`, this folder is auto-generated.
+4. Once you have updated the `.json` files run `yarn lingui:compile`.
+5. Check in the changes in a PR
 
 ## Running Tests
 After a Unit test execution, a coverage folder will be created. Reports will be displayed in the output.
